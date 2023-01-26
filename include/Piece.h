@@ -3,16 +3,16 @@
 //
 #pragma once
 
-enum color { WHITE, BLACK};
+enum Color { WHITE, BLACK};
 
 
 class Piece {
 private:
-    color c_;
+    Color c_;
     int position_x;
     int position_y;
 public:
-    Piece(int x, int y, color c);
+    Piece(int x, int y, Color c);
     virtual bool valid_move(int x, int y) =0;
     virtual void move(int x, int y) = 0;
 };
