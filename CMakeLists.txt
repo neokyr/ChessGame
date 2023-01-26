@@ -3,7 +3,7 @@ project(chess)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(chess src/main.cpp)
+add_executable(chess src/main.cpp include/Plateau.h include/Piece.h)
 
 # --- SDL2 SETUP ---
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
