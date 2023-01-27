@@ -17,7 +17,7 @@ Window::Window() {
 
     render_ = SDL_CreateRenderer(window_, -1, 0);
 
-    SDL_SetRenderDrawColor(render_, 0x00, 0xFF, 0x22, 0x00);
+    SDL_SetRenderDrawColor(render_, 0x00, 0x00, 0x00, 0x00);
 }
 
 SDL_Window *Window::getWindow() const {
@@ -32,14 +32,14 @@ SDL_Renderer *Window::getRender() const {
     return render_;
 }
 
-SDL_Texture* Window::loadingPng(char *path_to_file) {
+SDL_Texture* Window::loadPng(char *path_to_file) {
     int width, height, channels;
     unsigned char* imageData = stbi_load(path_to_file, &width, &height, &channels, STBI_rgb_alpha);
     if (!imageData) {
         throw invalid_argument(string("error loading image: ") + stbi_failure_reason());
     }
 
-    SDL_Texture* texture = SDL_CreateTexture(render_, SDL_PIXELFORMAT_BGRA8888, SDL_TEXTUREACCESS_STATIC, width, height);
+    SDL_Texture* texture = SDL_CreateTexture(render_, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STATIC, width, height);
     if (!texture) {
         throw invalid_argument(string("error creating texture: ") + SDL_GetError());
     }

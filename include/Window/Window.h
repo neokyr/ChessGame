@@ -27,5 +27,5 @@ public:
     SDL_Surface *getWinSurface() const;
     SDL_Renderer *getRender() const;
 
-    SDL_Texture * loadingPng(char* path_to_file);
+    SDL_Texture * loadPng(char* path_to_file);
 };

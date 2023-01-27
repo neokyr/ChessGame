@@ -3,6 +3,7 @@
 #include "Window/EventHandler.h"
 #include "Window/Window.h"
 #include "Window/Button.h"
+#include "Window/BoardWidget.h"
 #include <fstream>
 
 
@@ -20,24 +21,26 @@ int main(int argc, char** argv) {
     bool continueGame = true;
     SDL_Event event;
     int x = 0;
-    Button new_game(200, 200, 100, 40,
-                    "../assets/nouv_jeu_1.png", "../assets/nouv_jeu_2.png",
+    Button new_game(400, 200, 100, 40,
+                    "../assets/btn_nouv_jeu_1.png", "../assets/btn_nouv_jeu_2.png",
                     []() {
         int x;
         x++;
     });
-    Button test(200, 240, 100, 40,
-                    "../assets/nouv_jeu_1.png", "../assets/nouv_jeu_2.png",
+    Button test(400, 240, 100, 40,
+                    "../assets/btn_nouv_jeu_1.png", "../assets/btn_nouv_jeu_2.png",
                     []() {
                         int x;
                         x++;
                     });
 
+    BoardWidget board(0,0,400,400);
+
     while(continueGame) {
         SDL_RenderClear(main_window->getRender());
         new_game.print();
         test.print();
-
+        board.print();
         SDL_RenderPresent(main_window->getRender());
 
         eventHandler->handle(event, continueGame);
