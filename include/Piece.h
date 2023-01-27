@@ -4,7 +4,7 @@
 #pragma once
 
 enum Color { WHITE, BLACK};
-enum Piece_Type{KING, QUEEN, TOWER, BISHOP, KNIGHT, PAWN};
+enum Piece_Type{KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN};
 
 class Piece {
 private:
@@ -51,12 +51,18 @@ class Knight : public Piece {
 public:
     Knight(int x, int y, Color c);
     bool valid_move(int x, int y) override;
+
+    Piece_Type get_type() override;
+
 };
 
 class Bishop : public Piece {
 public:
     Bishop(int x, int y, Color c);
     bool valid_move(int x, int y) override;
+
+    Piece_Type get_type() override;
+
 };
 
 class Pawn : public Piece {
@@ -65,7 +71,9 @@ private:
 public:
     Pawn(int x, int y, bool color);
     bool valid_move(int x, int y) override;
-    void move(int x, int y) override;
-    Piece upgrade(Evolved e);
+
+    Piece_Type get_type() override;
+
+    Piece upgrade(Piece_Type e);
 
 };
