@@ -11,11 +11,13 @@ private:
     Color c_;
     int position_x_;
     int position_y_;
+
 public:
     Piece(int x, int y, Color c);
     virtual bool valid_move(int x, int y) = 0;
     virtual void move(int x, int y);
     virtual Piece_Type get_type() = 0;
+    Color getColor() const;
 
     int getPos_x() const;
     int getPos_y() const;

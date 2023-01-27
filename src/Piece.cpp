@@ -25,6 +25,10 @@ int Piece::getPos_y() const {
     return position_y_;
 }
 
+Color Piece::getColor() const {
+    return c_;
+}
+
 King::King(int x, int y, Color c) : Piece(x, y, c) {
 }
 
@@ -142,13 +146,14 @@ Pawn::Pawn(int x, int y, Color c) {
 bool Pawn::valid_move(int x, int y) {
     int xm = (x - getPos_x());
     int ym = (y - getPos_y());
-    if (x > 7 || x < 0 || y > 7 || y < 0) {
-        return false;
-    }
-    else if ()
 
-        (abs(xm) > 1 || abs(ym) > 1) {
-        return false;
+    if ((getColor() == WHITE && getPos_y() == 1) || (getColor() == BLACK && getPos_y() == 6)) {
+        if (ym <= 0 || ym > 2 || ym == 2 && xm != 0 || abs(xm) > 1) {
+            return false;
+        }
+    }
+    else {
+        already_move_ = true;
     }
     return true;
 }
