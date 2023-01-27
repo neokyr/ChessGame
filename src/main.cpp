@@ -23,11 +23,10 @@ int main(int argc, char** argv) {
     int x = 0;
     Button new_game(400, 200, 100, 40,
                     "../assets/btn_nouv_jeu_1.png", "../assets/btn_nouv_jeu_2.png",
-                    []() {
-        int x;
-        x++;
-    });
-    Button test(400, 240, 100, 40,
+                    [&x]() {
+                        x++;
+                    });
+    Button test(400, 241, 100, 40,
                     "../assets/btn_nouv_jeu_1.png", "../assets/btn_nouv_jeu_2.png",
                     []() {
                         int x;
@@ -41,6 +40,7 @@ int main(int argc, char** argv) {
         new_game.print();
         test.print();
         board.print();
+
         SDL_RenderPresent(main_window->getRender());
 
         eventHandler->handle(event, continueGame);

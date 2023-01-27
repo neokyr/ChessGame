@@ -4,7 +4,7 @@
 #include "../../include/Window/Button.h"
 #include "Window/Window.h"
 
-Button::Button(int x, int y, int w, int h, char *btn_up_path, char *btn_down_path, void (*clickCallback)()) :
+Button::Button(int x, int y, int w, int h, char *btn_up_path, char *btn_down_path, std::function<void (void)> clickCallback) :
         Widget(x, y, w, h), is_down(false), clickCallback_(clickCallback) {
 
     button_up_ = Window::getMainWindow()->loadPng(btn_up_path);
