@@ -22,7 +22,7 @@ add_executable(chess
         src/Window/Button.cpp
         src/Window/Widget.cpp
         include/Window/Widget.h
-        src/Window/EventHandler.cpp include/Window/stb_image.h include/Window/Window.h src/Window/Window.cpp)
+        src/Window/EventHandler.cpp include/Window/stb_image.h include/Window/Window.h src/Window/Window.cpp src/Piece.cpp src/Board.cpp)
 
 
 include_directories(include/ ${SDL2_INCLUDE_DIR}/..)
