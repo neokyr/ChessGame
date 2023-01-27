@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
     SDL_Event event;
     int x = 0;
     Button new_game(200, 200, 100, 40,
-                    "../assets/nouv_jeu_2.png", "../assets/nouv_jeu_2.png",
+                    "../assets/nouv_jeu_1.png", "../assets/nouv_jeu_2.png",
                     []() {
         int x;
         x++;

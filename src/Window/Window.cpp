@@ -32,9 +32,9 @@ SDL_Renderer *Window::getRender() const {
     return render_;
 }
 
-SDL_Texture* Window::getTextureFromPng(string& path_to_file) {
+SDL_Texture* Window::loadingPng(char *path_to_file) {
     int width, height, channels;
-    unsigned char* imageData = stbi_load("../assets/nouv_jeu_1.png", &width, &height, &channels, STBI_rgb_alpha);
+    unsigned char* imageData = stbi_load(path_to_file, &width, &height, &channels, STBI_rgb_alpha);
     if (!imageData) {
         throw invalid_argument(string("error loading image: ") + stbi_failure_reason());
     }

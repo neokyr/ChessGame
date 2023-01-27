@@ -7,11 +7,11 @@
 
 using namespace std;
 
-class Rectangle {
+class Widget {
 private:
     SDL_Rect position_;
 public:
-    Rectangle(int x, int y, int w, int h);
+    Widget(int x, int y, int w, int h);
 
     bool is_inside(int x, int y);
 

@@ -20,8 +20,8 @@ add_executable(chess
         include/Window/EventHandler.h
         include/Window/Button.h
         src/Window/Button.cpp
-        src/Window/Rectangle.cpp
-        include/Window/Rectangle.h
+        src/Window/Widget.cpp
+        include/Window/Widget.h
         src/Window/EventHandler.cpp include/Window/stb_image.h include/Window/Window.h src/Window/Window.cpp)
 
 
