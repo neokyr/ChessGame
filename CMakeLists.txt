@@ -11,9 +11,20 @@ SET(SDL2_PATH ${CMAKE_SOURCE_DIR}/SDL2-2.26.2/x86_64-w64-mingw32)
 
 find_package(SDL2 REQUIRED)
 
-add_executable(chess src/main.cpp include/Board.h include/Piece.h include/Game.h include/Player.h include/Window/EventHandler.h)
+add_executable(chess
+        src/main.cpp
+        include/Board.h
+        include/Piece.h
+        include/Game.h
+        include/Player.h
+        include/Window/EventHandler.h
+        include/Window/Button.h
+        src/Window/Button.cpp
+        src/Window/Rectangle.cpp
+        include/Window/Rectangle.h
+        src/Window/EventHandler.cpp include/Window/stb_image.h include/Window/Window.h src/Window/Window.cpp)
 
 
-include_directories(${SDL2_INCLUDE_DIR}/..)
+include_directories(include/ ${SDL2_INCLUDE_DIR}/..)
 target_link_libraries(chess ${SDL2_LIBRARY})
 

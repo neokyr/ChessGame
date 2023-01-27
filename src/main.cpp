@@ -1,17 +1,42 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include "Window/EventHandler.h"
+#include "Window/Window.h"
+#include "Window/Button.h"
+#include <fstream>
+
 
 using namespace std;
 
-int main(int argc, char* argv[]) {
+int main(int argc, char** argv) {
 // returns zero on success else non-zero
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         printf("error initializing SDL: %s\n", SDL_GetError());
     }
-    SDL_Window* win = SDL_CreateWindow("GAME",
-                                       SDL_WINDOWPOS_CENTERED,
-                                       SDL_WINDOWPOS_CENTERED,
-                                       800, 800, 0);
+
+    Window* main_window = Window::getMainWindow();
+    EventHandler *eventHandler = EventHandler::getEventHandler();
+
+    bool continueGame = true;
+    SDL_Event event;
+    int x = 0;
+    Button new_game(200, 200, 100, 40,
+                    "../assets/nouv_jeu_2.png", "../assets/nouv_jeu_2.png",
+                    []() {
+        int x;
+        x++;
+    });
+
+    while(continueGame) {
+        SDL_RenderClear(main_window->getRender());
+        new_game.print();
+
+        SDL_RenderPresent(main_window->getRender());
+
+        eventHandler->handle(event, continueGame);
+    }
+
+
 
     return 0;
 }
