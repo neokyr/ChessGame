@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
     bool continueGame = true;
     SDL_Event event;
     int x = 0;
-    Button new_game(400, 200, 100, 40,
+    Button new_game(600, 550, 200, 50,
                     "../assets/btn_nouv_jeu_1.png", "../assets/btn_nouv_jeu_2.png",
                     [&x]() {
                         x++;
@@ -33,13 +33,14 @@ int main(int argc, char** argv) {
                         x++;
                     });
 
-    BoardWidget board(0,0,400,400);
+    BoardWidget board(0,0,600);
 
     while(continueGame) {
         SDL_RenderClear(main_window->getRender());
         new_game.print();
         test.print();
         board.print();
+        new_game.print();
 
         SDL_RenderPresent(main_window->getRender());
 
