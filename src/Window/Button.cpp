@@ -22,7 +22,7 @@ void Button::print() {
 }
 
 void Button::handleEvent(SDL_Event &e) {
-    if(e.type == SDL_MOUSEBUTTONDOWN) {
+    if(e.type == SDL_MOUSEBUTTONDOWN && is_inside(e.button.x, e.button.y)) {
         is_down = true;
     } else if(e.type == SDL_MOUSEBUTTONUP && is_down) {
         is_down = false;

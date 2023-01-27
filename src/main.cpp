@@ -26,10 +26,17 @@ int main(int argc, char** argv) {
         int x;
         x++;
     });
+    Button test(200, 240, 100, 40,
+                    "../assets/nouv_jeu_1.png", "../assets/nouv_jeu_2.png",
+                    []() {
+                        int x;
+                        x++;
+                    });
 
     while(continueGame) {
         SDL_RenderClear(main_window->getRender());
         new_game.print();
+        test.print();
 
         SDL_RenderPresent(main_window->getRender());
 
