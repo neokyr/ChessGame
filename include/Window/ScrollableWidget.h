@@ -4,6 +4,9 @@
 #pragma once
 
 #include "Widget.h"
+#include <string>
+
+using namespace std;
 
 class ScrollableWidget : public Widget {
 private:
@@ -17,7 +20,7 @@ protected:
     SDL_Surface* getSurface();
 
 public:
-    ScrollableWidget(int x, int y, int w, int h, char *bg_path, int padding);
+    ScrollableWidget(int x, int y, int w, int h, string bg_path, int padding);
     ~ScrollableWidget();
 
     void handleEvent(SDL_Event &e) override;

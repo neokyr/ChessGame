@@ -1,9 +1,6 @@
 //
 // Created by p00ri on 27/01/2023.
 //
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wwritable-strings"
-
 #include <stdexcept>
 #include "Window/Window.h"
 #include "Piece.h"
@@ -22,40 +19,40 @@ Window::Window() {
     SDL_SetRenderDrawColor(render_, 0x00, 0x00, 0x00, 0x00);
 
     white_pieces_ = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-    white_pieces_.at(BISHOP) = loadPng("../assets/chessSet/w_bishop.png");
-    white_pieces_.at(KING) =   loadPng("../assets/chessSet/w_king.png");
-    white_pieces_.at(PAWN) =   loadPng("../assets/chessSet/w_pawn.png");
-    white_pieces_.at(KNIGHT) = loadPng("../assets/chessSet/w_knight.png");
-    white_pieces_.at(QUEEN) =  loadPng("../assets/chessSet/w_queen.png");;
-    white_pieces_.at(ROOK) =   loadPng("../assets/chessSet/w_rook.png");
+    white_pieces_.at(BISHOP) = loadPng((string) "../assets/chessSet/w_bishop.png");
+    white_pieces_.at(KING) =   loadPng((string) "../assets/chessSet/w_king.png");
+    white_pieces_.at(PAWN) =   loadPng((string) "../assets/chessSet/w_pawn.png");
+    white_pieces_.at(KNIGHT) = loadPng((string) "../assets/chessSet/w_knight.png");
+    white_pieces_.at(QUEEN) =  loadPng((string) "../assets/chessSet/w_queen.png");;
+    white_pieces_.at(ROOK) =   loadPng((string) "../assets/chessSet/w_rook.png");
     black_pieces_ = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-    black_pieces_.at(BISHOP) = loadPng("../assets/chessSet/b_bishop.png");
-    black_pieces_.at(KING) =   loadPng("../assets/chessSet/b_king.png");
-    black_pieces_.at(PAWN) =   loadPng("../assets/chessSet/b_pawn.png");
-    black_pieces_.at(KNIGHT) = loadPng("../assets/chessSet/b_knight.png");
-    black_pieces_.at(QUEEN) =  loadPng("../assets/chessSet/b_queen.png");
-    black_pieces_.at(ROOK) =   loadPng("../assets/chessSet/b_rook.png");
+    black_pieces_.at(BISHOP) = loadPng((string) "../assets/chessSet/b_bishop.png");
+    black_pieces_.at(KING) =   loadPng((string) "../assets/chessSet/b_king.png");
+    black_pieces_.at(PAWN) =   loadPng((string) "../assets/chessSet/b_pawn.png");
+    black_pieces_.at(KNIGHT) = loadPng((string) "../assets/chessSet/b_knight.png");
+    black_pieces_.at(QUEEN) =  loadPng((string) "../assets/chessSet/b_queen.png");
+    black_pieces_.at(ROOK) =   loadPng((string) "../assets/chessSet/b_rook.png");
 
     letters_ = {
-            loadPng("../assets/char/A.png"),
-            loadPng("../assets/char/B.png"),
-            loadPng("../assets/char/C.png"),
-            loadPng("../assets/char/D.png"),
-            loadPng("../assets/char/E.png"),
-            loadPng("../assets/char/F.png"),
-            loadPng("../assets/char/G.png"),
-            loadPng("../assets/char/H.png")
+            loadPng((string) "../assets/char/A.png"),
+            loadPng((string) "../assets/char/B.png"),
+            loadPng((string) "../assets/char/C.png"),
+            loadPng((string) "../assets/char/D.png"),
+            loadPng((string) "../assets/char/E.png"),
+            loadPng((string) "../assets/char/F.png"),
+            loadPng((string) "../assets/char/G.png"),
+            loadPng((string) "../assets/char/H.png")
     };
 
     numbers_ = {
-            loadPng("../assets/char/1.png"),
-            loadPng("../assets/char/2.png"),
-            loadPng("../assets/char/3.png"),
-            loadPng("../assets/char/4.png"),
-            loadPng("../assets/char/5.png"),
-            loadPng("../assets/char/6.png"),
-            loadPng("../assets/char/7.png"),
-            loadPng("../assets/char/8.png")
+            loadPng((string) "../assets/char/1.png"),
+            loadPng((string) "../assets/char/2.png"),
+            loadPng((string) "../assets/char/3.png"),
+            loadPng((string) "../assets/char/4.png"),
+            loadPng((string) "../assets/char/5.png"),
+            loadPng((string) "../assets/char/6.png"),
+            loadPng((string) "../assets/char/7.png"),
+            loadPng((string) "../assets/char/8.png")
     };
 
 
@@ -73,9 +70,9 @@ SDL_Renderer *Window::getRender() const {
     return render_;
 }
 
-SDL_Texture* Window::loadPng(char *path_to_file) {
+SDL_Texture* Window::loadPng(string path_to_file) {
     int width, height, channels;
-    unsigned char* imageData = stbi_load(path_to_file, &width, &height, &channels, STBI_rgb_alpha);
+    unsigned char* imageData = stbi_load(path_to_file.c_str(), &width, &height, &channels, STBI_rgb_alpha);
     if (!imageData) {
         throw invalid_argument(string("error loading image: ") + stbi_failure_reason());
     }

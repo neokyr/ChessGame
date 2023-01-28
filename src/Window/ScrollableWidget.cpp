@@ -8,11 +8,11 @@
 
 using namespace std;
 
-ScrollableWidget::ScrollableWidget(int x, int y, int w, int h, char *bg_path = nullptr, int padding = 0) :
+ScrollableWidget::ScrollableWidget(int x, int y, int w, int h, string bg_path = "", int padding = 0) :
     Widget(x, y, w, h) {
     Window *win = Window::getMainWindow();
 
-    if(bg_path != nullptr) {
+    if(!bg_path.empty()) {
         if(padding >= w/2 || padding >= h/2) throw invalid_argument("incorrect padding");
         padding_ = padding;
         background_ = win->loadPng(bg_path);
