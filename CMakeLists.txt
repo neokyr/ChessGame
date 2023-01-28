@@ -30,7 +30,11 @@ add_executable(chess
         include/Window/stb_image.h
         include/Window/Window.h
         include/Window/BoardWidget.h
-)
+        include/Window/ScrollableWidget.h
+        src/Window/ScrollableWidget.cpp
+        include/Window/HistoricWidget.h
+        include/Historic.h
+        src/Historic.cpp)
 
 
 include_directories(include/ ${SDL2_INCLUDE_DIR}/..)

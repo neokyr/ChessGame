@@ -90,7 +90,7 @@ typedef enum
     SDLK_AT = '@',
 
     /*
-       Skip uppercase letters
+       Skip uppercase letters_
      */
 
     SDLK_LEFTBRACKET = '[',

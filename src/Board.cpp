@@ -27,11 +27,6 @@ void Board::print() {
 
 bool Board::validate_move(int x1, int y1, int x2, int y2) {
 
-    return;
-}
-throw invalid_argument("Unauthorized move");*/
-
-
     return false;
 }
 
