@@ -59,28 +59,33 @@ void BoardWidget::handleEvent(SDL_Event &e) {
 void BoardWidget::print() {
     Window *win = Window::getMainWindow();
     SDL_Rect* board =  getPosition();
-    int w = (board->w) /9;
-    int h = (board->h) /9;
+
+    int h_font = 30;
+    int w_font = (int) (h_font * 0.8);
+    int font_space = 40;
+
+    int w_case = (board->w - font_space) / 8;
+    int h_case = (board->h - font_space) / 8;
 
     for (int i = 7 ; i >= 0; i--) {
-        int y = (7-i) * h;
-        int x = 0 + w*0.1;
-        SDL_Rect r = {x,y,(int) (w * 0.8), h};
+        int x = 0 + (font_space - w_font) /2 ;
+        int y = (7-i) * h_case + (h_case - h_font) /2;
+        SDL_Rect r = {x, y, w_font, h_font};
         SDL_RenderCopy(win->getRender(), letters[i], nullptr, &r);
     }
 
     for (int i = 0 ; i < 8; i++) {
-        int y = board->h - h;
-        int x = i * w + w + w *0.2;
-        SDL_Rect r = {x,y,(int) (w *0.8),h };
+        int x = i * w_case + font_space + (w_case - w_font) /2;
+        int y = board->h - font_space + (font_space - h_font) /2;
+        SDL_Rect r = {x, y, w_font, h_font};
         SDL_RenderCopy(win->getRender(), numbers_[i], nullptr, &r);
     }
 
     for (int i = 0; i <64; ++i) {
         bool is_white_case = (i%2 + i/8) %2;
-        int x = (i%8) * w + w;
-        int y = (i/8) * h;
-        SDL_Rect r = {x,y,w,h};
+        int x = (i%8) * w_case + font_space;
+        int y = (i/8) * h_case;
+        SDL_Rect r = {x, y, w_case, h_case};
         if(is_white_case) {
             SDL_RenderCopy(win->getRender(), w_case_0_, nullptr, &r);
         } else {

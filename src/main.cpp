@@ -24,21 +24,15 @@ int main(int argc, char** argv) {
     Button new_game(600, 550, 200, 50,
                     "../assets/btn_nouv_jeu_1.png", "../assets/btn_nouv_jeu_2.png",
                     [&x]() {
-                        x++;
+                        SDL_ShowSimpleMessageBox(0, "Test", "Bonjour le monde", Window::getMainWindow()->getWindow());
                     });
-    Button test(400, 241, 100, 40,
-                    "../assets/btn_nouv_jeu_1.png", "../assets/btn_nouv_jeu_2.png",
-                    []() {
-                        int x;
-                        x++;
-                    });
+
 
     BoardWidget board(0,0,600);
 
     while(continueGame) {
         SDL_RenderClear(main_window->getRender());
         new_game.print();
-        test.print();
         board.print();
         new_game.print();
 
