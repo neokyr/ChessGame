@@ -13,21 +13,24 @@ find_package(SDL2 REQUIRED)
 
 add_executable(chess
         src/main.cpp
+        src/Window/Button.cpp
+        src/Window/Widget.cpp
+        src/Window/Window.cpp
+        src/Window/EventHandler.cpp
+        src/Window/BoardWidget.cpp
+        src/Board.cpp
+        src/Piece.cpp
         include/Board.h
         include/Piece.h
         include/Game.h
         include/Player.h
         include/Window/EventHandler.h
         include/Window/Button.h
-        src/Window/Button.cpp
-        src/Window/Widget.cpp
         include/Window/Widget.h
-        src/Window/EventHandler.cpp
         include/Window/stb_image.h
         include/Window/Window.h
-        src/Window/Window.cpp
         include/Window/BoardWidget.h
-        src/Window/BoardWidget.cpp)
+)
 
 
 include_directories(include/ ${SDL2_INCLUDE_DIR}/..)
