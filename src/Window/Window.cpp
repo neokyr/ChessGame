@@ -4,8 +4,7 @@
 #include <stdexcept>
 #include "Window/Window.h"
 #include "Piece.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include "Window/stb_image.h"
+#include "SDL2/SDL_image.h"
 
 
 Window::Window() {
@@ -13,46 +12,52 @@ Window::Window() {
                                SDL_WINDOWPOS_CENTERED,
                                SDL_WINDOWPOS_CENTERED,
                                800, 600, 0);
+    if(window_ == nullptr) throw runtime_error(string("SDL Error : ") + SDL_GetError());
 
     win_surface_ = SDL_GetWindowSurface(window_);
-    render_ = SDL_CreateRenderer(window_, -1, 0);
-    SDL_SetRenderDrawColor(render_, 0x00, 0x00, 0x00, 0x00);
+    if(win_surface_ == nullptr) throw runtime_error(string("SDL Error : ") + SDL_GetError());
+
+    render_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
+    if(render_ == nullptr) throw runtime_error(string("SDL Error : ") + SDL_GetError());
+
+    SDL_SetRenderDrawColor(render_, 0xF0, 0x00, 0x00, 0x00);
+    SDL_SetRenderDrawBlendMode(render_, SDL_BLENDMODE_NONE);
 
     white_pieces_ = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-    white_pieces_.at(BISHOP) = loadPng((string) "../assets/chessSet/w_bishop.png");
-    white_pieces_.at(KING) =   loadPng((string) "../assets/chessSet/w_king.png");
-    white_pieces_.at(PAWN) =   loadPng((string) "../assets/chessSet/w_pawn.png");
-    white_pieces_.at(KNIGHT) = loadPng((string) "../assets/chessSet/w_knight.png");
-    white_pieces_.at(QUEEN) =  loadPng((string) "../assets/chessSet/w_queen.png");;
-    white_pieces_.at(ROOK) =   loadPng((string) "../assets/chessSet/w_rook.png");
+    white_pieces_.at(BISHOP) = loadImg((string) "../assets/chessSet/w_bishop.png");
+    white_pieces_.at(KING) = loadImg((string) "../assets/chessSet/w_king.png");
+    white_pieces_.at(PAWN) = loadImg((string) "../assets/chessSet/w_pawn.png");
+    white_pieces_.at(KNIGHT) = loadImg((string) "../assets/chessSet/w_knight.png");
+    white_pieces_.at(QUEEN) = loadImg((string) "../assets/chessSet/w_queen.png");;
+    white_pieces_.at(ROOK) = loadImg((string) "../assets/chessSet/w_rook.png");
     black_pieces_ = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-    black_pieces_.at(BISHOP) = loadPng((string) "../assets/chessSet/b_bishop.png");
-    black_pieces_.at(KING) =   loadPng((string) "../assets/chessSet/b_king.png");
-    black_pieces_.at(PAWN) =   loadPng((string) "../assets/chessSet/b_pawn.png");
-    black_pieces_.at(KNIGHT) = loadPng((string) "../assets/chessSet/b_knight.png");
-    black_pieces_.at(QUEEN) =  loadPng((string) "../assets/chessSet/b_queen.png");
-    black_pieces_.at(ROOK) =   loadPng((string) "../assets/chessSet/b_rook.png");
+    black_pieces_.at(BISHOP) = loadImg((string) "../assets/chessSet/b_bishop.png");
+    black_pieces_.at(KING) = loadImg((string) "../assets/chessSet/b_king.png");
+    black_pieces_.at(PAWN) = loadImg((string) "../assets/chessSet/b_pawn.png");
+    black_pieces_.at(KNIGHT) = loadImg((string) "../assets/chessSet/b_knight.png");
+    black_pieces_.at(QUEEN) = loadImg((string) "../assets/chessSet/b_queen.png");
+    black_pieces_.at(ROOK) = loadImg((string) "../assets/chessSet/b_rook.png");
 
     letters_ = {
-            loadPng((string) "../assets/char/A.png"),
-            loadPng((string) "../assets/char/B.png"),
-            loadPng((string) "../assets/char/C.png"),
-            loadPng((string) "../assets/char/D.png"),
-            loadPng((string) "../assets/char/E.png"),
-            loadPng((string) "../assets/char/F.png"),
-            loadPng((string) "../assets/char/G.png"),
-            loadPng((string) "../assets/char/H.png")
+            loadImg((string) "../assets/char/A.png"),
+            loadImg((string) "../assets/char/B.png"),
+            loadImg((string) "../assets/char/C.png"),
+            loadImg((string) "../assets/char/D.png"),
+            loadImg((string) "../assets/char/E.png"),
+            loadImg((string) "../assets/char/F.png"),
+            loadImg((string) "../assets/char/G.png"),
+            loadImg((string) "../assets/char/H.png")
     };
 
     numbers_ = {
-            loadPng((string) "../assets/char/1.png"),
-            loadPng((string) "../assets/char/2.png"),
-            loadPng((string) "../assets/char/3.png"),
-            loadPng((string) "../assets/char/4.png"),
-            loadPng((string) "../assets/char/5.png"),
-            loadPng((string) "../assets/char/6.png"),
-            loadPng((string) "../assets/char/7.png"),
-            loadPng((string) "../assets/char/8.png")
+            loadImg((string) "../assets/char/1.png"),
+            loadImg((string) "../assets/char/2.png"),
+            loadImg((string) "../assets/char/3.png"),
+            loadImg((string) "../assets/char/4.png"),
+            loadImg((string) "../assets/char/5.png"),
+            loadImg((string) "../assets/char/6.png"),
+            loadImg((string) "../assets/char/7.png"),
+            loadImg((string) "../assets/char/8.png")
     };
 
 
@@ -70,18 +75,11 @@ SDL_Renderer *Window::getRender() const {
     return render_;
 }
 
-SDL_Texture* Window::loadPng(string path_to_file) {
-    int width, height, channels;
-    unsigned char* imageData = stbi_load(path_to_file.c_str(), &width, &height, &channels, STBI_rgb_alpha);
-    if (!imageData) {
-        throw invalid_argument(string("error loading image: ") + stbi_failure_reason());
-    }
+SDL_Texture* Window::loadImg(const string path_to_file) {
 
-    SDL_Texture* texture = SDL_CreateTexture(render_, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STATIC, width, height);
-    if (!texture) {
-        throw invalid_argument(string("error creating texture: ") + SDL_GetError());
-    }
-    SDL_UpdateTexture(texture, nullptr, imageData, width * sizeof(Uint32));
+    SDL_Surface* tmp = IMG_Load(path_to_file.c_str());
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(render_, tmp);
+    SDL_FreeSurface(tmp);
 
     return texture;
 }

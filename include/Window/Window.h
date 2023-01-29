@@ -30,7 +30,7 @@ public:
     SDL_Surface *getWinSurface() const;
     SDL_Renderer *getRender() const;
 
-    SDL_Texture * loadPng(string path_to_file);
+    SDL_Texture * loadImg(const string path_to_file);
 
     const vector<SDL_Texture *> &getWhitePieces() const;
 

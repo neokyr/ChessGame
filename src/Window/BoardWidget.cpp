@@ -12,10 +12,10 @@ BoardWidget::BoardWidget(int x, int y, int w/*, Board& board, Game& game*/):
     Widget(x, y, w, w)/*, board_(board), game_(game) */ {
     Window *win = Window::getMainWindow();
 
-    w_case_0_ = win->loadPng("../assets/chessSet/square_gray_light.png");
-    w_case_1_ = win->loadPng("../assets/chessSet/square_gray_dark.png");
-    b_case_0_ = win->loadPng("../assets/chessSet/square_brown_light.png");
-    b_case_1_ = win->loadPng("../assets/chessSet/square_brown_dark.png");
+    w_case_0_ = win->loadImg("../assets/chessSet/square_gray_light.png");
+    w_case_1_ = win->loadImg("../assets/chessSet/square_gray_dark.png");
+    b_case_0_ = win->loadImg("../assets/chessSet/square_brown_light.png");
+    b_case_1_ = win->loadImg("../assets/chessSet/square_brown_dark.png");
     letters_ = win->getLetters();
     numbers_ = win->getNumbers();
     w_piece_ = win->getWhitePieces();
@@ -63,6 +63,7 @@ void BoardWidget::print() {
             SDL_RenderCopy(win->getRender(), w_piece_[KING], nullptr, &r);
         } else {
             SDL_RenderCopy(win->getRender(), b_case_0_, nullptr, &r);
+            SDL_RenderCopy(win->getRender(), w_piece_[KING], nullptr, &r);
         }
         /* TODO Add pieces */
     }

@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
 
     BoardWidget board(0,0,600);
     ScrollableWidget histo_test(600,0,200, 300, "../assets/scr_background.png", 10);
-    SDL_Texture * bg = main_window->loadPng((string) "../assets/background.png");
+    SDL_Texture * bg = main_window->loadImg((string) "../assets/background.png");
 
     while(continueGame) {
         SDL_RenderClear(main_window->getRender());

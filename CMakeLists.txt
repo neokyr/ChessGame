@@ -7,9 +7,12 @@ set(CMAKE_CXX_STANDARD 11)
 # --- SDL2 SETUP ---
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
 SET(SDL2_PATH ${CMAKE_SOURCE_DIR}/SDL2-2.26.2/x86_64-w64-mingw32)
-
+SET(SDL2_image_PATH ${CMAKE_SOURCE_DIR}/SDL2_image-2.26.2/x86_64-w64-mingw32)
+SET(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${CMAKE_SOURCE_DIR}/SDL2-2.26.2/x86_64-w64-mingw32/lib/cmake/SDL2_image)
 
 find_package(SDL2 REQUIRED)
+find_package(sdl2_image REQUIRED)
+
 
 add_executable(chess
         src/main.cpp
@@ -27,7 +30,6 @@ add_executable(chess
         include/Window/EventHandler.h
         include/Window/Button.h
         include/Window/Widget.h
-        include/Window/stb_image.h
         include/Window/Window.h
         include/Window/BoardWidget.h
         include/Window/ScrollableWidget.h
@@ -37,6 +39,6 @@ add_executable(chess
         src/Historic.cpp)
 
 
-include_directories(include/ ${SDL2_INCLUDE_DIR}/..)
-target_link_libraries(chess ${SDL2_LIBRARY})
+include_directories(include/ ${SDL2_INCLUDE_DIR}/.. ${CMAKE_SOURCE_DIR}/SDL2-2.26.2/x86_64-w64-mingw32/include)
+target_link_libraries(chess ${SDL2_LIBRARY} ${CMAKE_SOURCE_DIR}/SDL2-2.26.2/x86_64-w64-mingw32/lib/libSDL2_image.dll.a )
 

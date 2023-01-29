@@ -15,7 +15,7 @@ ScrollableWidget::ScrollableWidget(int x, int y, int w, int h, string bg_path = 
     if(!bg_path.empty()) {
         if(padding >= w/2 || padding >= h/2) throw invalid_argument("incorrect padding");
         padding_ = padding;
-        background_ = win->loadPng(bg_path);
+        background_ = win->loadImg(bg_path);
         viewport_ = {0, 0, w -padding_*2, h -padding_ * 2};
     } else {
         padding_ = 0;

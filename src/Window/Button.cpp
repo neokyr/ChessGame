@@ -7,8 +7,8 @@
 Button::Button(int x, int y, int w, int h, string btn_up_path, string btn_down_path, std::function<void (void)> clickCallback) :
         Widget(x, y, w, h), is_down(false), clickCallback_(clickCallback) {
 
-    button_up_ = Window::getMainWindow()->loadPng(btn_up_path);
-    button_down_ = Window::getMainWindow()->loadPng(btn_down_path);
+    button_up_ = Window::getMainWindow()->loadImg(btn_up_path);
+    button_down_ = Window::getMainWindow()->loadImg(btn_down_path);
     EventHandler::getEventHandler()->subscribe(this);
 }
 
