@@ -15,7 +15,7 @@ private:
     Piece* destroyed_;
 
 public:
-    Historic() = delete;
+    Historic() = default;
     Historic(Historic const& h) = default;
     Historic& operator=(Historic const& h) = default;
 

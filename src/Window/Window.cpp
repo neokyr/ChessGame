@@ -24,40 +24,40 @@ Window::Window() {
     SDL_SetRenderDrawBlendMode(render_, SDL_BLENDMODE_NONE);
 
     white_pieces_ = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-    white_pieces_.at(BISHOP) = loadImg((string) "../assets/chessSet/w_bishop.png");
-    white_pieces_.at(KING) = loadImg((string) "../assets/chessSet/w_king.png");
-    white_pieces_.at(PAWN) = loadImg((string) "../assets/chessSet/w_pawn.png");
-    white_pieces_.at(KNIGHT) = loadImg((string) "../assets/chessSet/w_knight.png");
-    white_pieces_.at(QUEEN) = loadImg((string) "../assets/chessSet/w_queen.png");;
-    white_pieces_.at(ROOK) = loadImg((string) "../assets/chessSet/w_rook.png");
+    white_pieces_.at(BISHOP) = loadImg("../assets/chessSet/w_bishop.png");
+    white_pieces_.at(KING) = loadImg("../assets/chessSet/w_king.png");
+    white_pieces_.at(PAWN) = loadImg("../assets/chessSet/w_pawn.png");
+    white_pieces_.at(KNIGHT) = loadImg("../assets/chessSet/w_knight.png");
+    white_pieces_.at(QUEEN) = loadImg("../assets/chessSet/w_queen.png");;
+    white_pieces_.at(ROOK) = loadImg("../assets/chessSet/w_rook.png");
     black_pieces_ = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-    black_pieces_.at(BISHOP) = loadImg((string) "../assets/chessSet/b_bishop.png");
-    black_pieces_.at(KING) = loadImg((string) "../assets/chessSet/b_king.png");
-    black_pieces_.at(PAWN) = loadImg((string) "../assets/chessSet/b_pawn.png");
-    black_pieces_.at(KNIGHT) = loadImg((string) "../assets/chessSet/b_knight.png");
-    black_pieces_.at(QUEEN) = loadImg((string) "../assets/chessSet/b_queen.png");
-    black_pieces_.at(ROOK) = loadImg((string) "../assets/chessSet/b_rook.png");
+    black_pieces_.at(BISHOP) = loadImg("../assets/chessSet/b_bishop.png");
+    black_pieces_.at(KING) = loadImg("../assets/chessSet/b_king.png");
+    black_pieces_.at(PAWN) = loadImg("../assets/chessSet/b_pawn.png");
+    black_pieces_.at(KNIGHT) = loadImg("../assets/chessSet/b_knight.png");
+    black_pieces_.at(QUEEN) = loadImg("../assets/chessSet/b_queen.png");
+    black_pieces_.at(ROOK) = loadImg("../assets/chessSet/b_rook.png");
 
     letters_ = {
-            loadImg((string) "../assets/char/A.png"),
-            loadImg((string) "../assets/char/B.png"),
-            loadImg((string) "../assets/char/C.png"),
-            loadImg((string) "../assets/char/D.png"),
-            loadImg((string) "../assets/char/E.png"),
-            loadImg((string) "../assets/char/F.png"),
-            loadImg((string) "../assets/char/G.png"),
-            loadImg((string) "../assets/char/H.png")
+            loadImg("../assets/char/A.png"),
+            loadImg("../assets/char/B.png"),
+            loadImg("../assets/char/C.png"),
+            loadImg("../assets/char/D.png"),
+            loadImg("../assets/char/E.png"),
+            loadImg("../assets/char/F.png"),
+            loadImg("../assets/char/G.png"),
+            loadImg("../assets/char/H.png")
     };
 
     numbers_ = {
-            loadImg((string) "../assets/char/1.png"),
-            loadImg((string) "../assets/char/2.png"),
-            loadImg((string) "../assets/char/3.png"),
-            loadImg((string) "../assets/char/4.png"),
-            loadImg((string) "../assets/char/5.png"),
-            loadImg((string) "../assets/char/6.png"),
-            loadImg((string) "../assets/char/7.png"),
-            loadImg((string) "../assets/char/8.png")
+            loadImg("../assets/char/1.png"),
+            loadImg("../assets/char/2.png"),
+            loadImg("../assets/char/3.png"),
+            loadImg("../assets/char/4.png"),
+            loadImg("../assets/char/5.png"),
+            loadImg("../assets/char/6.png"),
+            loadImg("../assets/char/7.png"),
+            loadImg("../assets/char/8.png")
     };
 
 
@@ -117,5 +117,3 @@ const vector<SDL_Texture *> &Window::getLetters() const {
 const vector<SDL_Texture *> &Window::getNumbers() const {
     return numbers_;
 }
-
-#pragma clang diagnostic pop

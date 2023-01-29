@@ -35,7 +35,8 @@ add_executable(chess
         include/Piece.h
         include/Game.h
         include/Player.h
-        include/Historic.h)
+        include/Historic.h
+        src/Game.cpp)
 
 
 SET(SDL2_PATH ${SDL2_custom_path})
