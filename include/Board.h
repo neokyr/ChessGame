@@ -13,7 +13,7 @@ class Board {
 private:
     vector<Piece*> PiecesInGame_;
 
-    Piece* removePiece(int x, int y);
+    void removePiece(int x, int y);
 
 
 public:
