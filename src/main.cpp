@@ -4,8 +4,8 @@
 #include "Window/Window.h"
 #include "Window/Button.h"
 #include "Window/BoardWidget.h"
-#include "Window/ScrollableWidget.h"
-#include <fstream>
+#include "Window/HistoricWidget.h"
+
 
 
 using namespace std;
@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
 
 
     BoardWidget board(10,10,590);
-    ScrollableWidget histo_test(600,10,200, 300, "../assets/scr_background.png", 10);
+    HistoricWidget histo_test(600,10,200, 300, "../assets/scr_background.png", 10);
     SDL_Texture * bg = main_window->loadImg((string) "../assets/background.png");
 
     while(continueGame) {

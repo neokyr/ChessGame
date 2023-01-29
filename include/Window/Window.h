@@ -39,4 +39,6 @@ public:
     const vector<SDL_Texture *> &getLetters() const;
 
     const vector<SDL_Texture *> &getNumbers() const;
+
+    static SDL_Surface *loadImgToSurface(const string path_to_file);
 };

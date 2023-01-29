@@ -36,7 +36,9 @@ add_executable(chess
         include/Game.h
         include/Player.h
         include/Historic.h
-        src/Game.cpp)
+        src/Game.cpp
+        src/Window/HistoricWidget.cpp
+        include/Window/HistoricWidget.h)
 
 
 SET(SDL2_PATH ${SDL2_custom_path})

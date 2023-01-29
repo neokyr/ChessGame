@@ -84,6 +84,11 @@ SDL_Texture* Window::loadImg(const string path_to_file) {
     return texture;
 }
 
+SDL_Surface* Window::loadImgToSurface(const string path_to_file) {
+    SDL_Surface* res = IMG_Load(path_to_file.c_str());
+    return res;
+}
+
 Window::~Window() {
     for(auto& letter : letters_) {
         SDL_DestroyTexture(letter);
