@@ -2,6 +2,7 @@
 // Created by Formation on 27/01/2023.
 //
 
+#include <stdexcept>
 #include "Board.h"
 #include "Piece.h"
 
@@ -30,8 +31,16 @@ bool Board::validate_move(int x1, int y1, int x2, int y2) {
     return false;
 }
 
-void Board::play_move(int x1, int y1, int x2, int y2) {
+Historic Board::play_move(int x1, int y1, int x2, int y2) {
+    if(validate_move(x1, y1, x2, y2)) {
+        Piece* destroyed = (*this)(x2, y2);
+        removePiece(x2, y2);
 
+        Historic move((*this)(x1,y1), x1, y1, x2, y2, destroyed);
+
+        return move;
+    }
+    throw invalid_argument("Move not allowed");
 }
 
 void Board::addPiece(Piece* p) {
@@ -68,6 +77,28 @@ void Board::addPiece(Piece* p) {
     PiecesInGame_.push_back(new Pawn(6, 5, BLACK));
     PiecesInGame_.push_back(new Pawn(6, 6, BLACK));
     PiecesInGame_.push_back(new Pawn(6, 7, BLACK));
+}
+
+Piece* Board::operator()(int x, int y) {
+    for(auto& piece : PiecesInGame_) {
+        if(piece->getPos_x() == x && piece->getPos_y() == y) {
+            return piece;
+        }
+    }
+
+    return nullptr;
+}
+
+vector<Piece*> Board::operator()(Piece_Type piece_type, Color c) {
+    vector<Piece*> result;
+
+    for(auto& piece : PiecesInGame_) {
+        if(piece->get_type() == piece_type && piece->getColor() == c) {
+            result.push_back(piece);
+        }
+    }
+
+    return result;
 }
 
 
