@@ -1,6 +1,4 @@
-//
-// Created by Formation on 27/01/2023.
-//
+
 #include "Window/BoardWidget.h"
 #include "Window/Window.h"
 #include "Piece.h"

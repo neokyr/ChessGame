@@ -1,6 +1,4 @@
-//
-// Created by p00ri on 27/01/2023.
-//
+
 #include <stdexcept>
 #include "Window/Window.h"
 #include "Piece.h"

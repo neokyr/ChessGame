@@ -1,6 +1,3 @@
-//
-// Created by p00ri on 29/01/2023.
-//
 
 #include "Window/HistoricWidget.h"
 #include "Window/Window.h"

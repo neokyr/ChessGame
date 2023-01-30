@@ -1,6 +1,4 @@
-//
-// Created by p00ri on 26/01/2023.
-//
+
 #include "../../include/Window/Button.h"
 #include "Window/Window.h"
 

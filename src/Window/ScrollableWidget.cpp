@@ -1,6 +1,3 @@
-//
-// Created by p00ri on 28/01/2023.
-//
 
 #include "Window/ScrollableWidget.h"
 #include "Window/Window.h"
@@ -38,7 +35,7 @@ void ScrollableWidget::handleEvent(SDL_Event &e) {
     if(e.type == SDL_MOUSEWHEEL && is_inside(e.wheel.mouseX, e.wheel.mouseY)) {
 
         Sint32 x = e.wheel.x * WHEEL_SPEED;
-        Sint32 y = e.wheel.y * WHEEL_SPEED;
+        Sint32 y = e.wheel.y * -WHEEL_SPEED;
         
         if(viewport_.x + x < 0){
             viewport_.x = 0;
