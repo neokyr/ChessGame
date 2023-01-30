@@ -1,12 +1,9 @@
-//
-// Created by p00ri on 29/01/2023.
-//
 #include "Game.h"
 
 Game::Game() : board_(Board()), current_player_(WHITE), move_history_(vector<Historic>()) {}
 
 void Game::new_game() {
-    board_ = Board();
+    board_ = Board(*this);
     current_player_ = WHITE;
     move_history_ = vector<Historic>();
 }
@@ -29,5 +26,15 @@ void Game::change_player() {
 }
 
 bool Game::is_mat(Color c) {
-    return false;
+    bool result = false;
+    Color other = c == WHITE ? BLACK: WHITE;
+    vector<Piece*> pieces = board_(other);
+    Piece *king = board_(KING, c).at(0);
+    int x = king->getPos_x(), y = king->getPos_y();
+
+    for(auto piece : pieces) {
+        result = result || piece->valid_move(x,y);
+    }
+
+    return result;
 }
