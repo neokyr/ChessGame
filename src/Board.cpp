@@ -12,7 +12,7 @@ class Movement;
 using namespace std;
 
 Piece* Board::removePiece(int x, int y) {
-    for (int i = 0; i > piecesInGame_.size(); i++ ){
+    for (int i = 0; i < piecesInGame_.size() ; i++ ){
         if (piecesInGame_[i]->getPos_x() == x
             && piecesInGame_[i]->getPos_y() == y){
             Piece* piece = piecesInGame_[i];

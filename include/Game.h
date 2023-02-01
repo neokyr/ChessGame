@@ -28,4 +28,5 @@ public:
     Board &getBoard();
     Color getCurrentPlayer() const;
     const vector<Historic> &getMoveHistory() const;
+    void addHistory(Historic h);
 };

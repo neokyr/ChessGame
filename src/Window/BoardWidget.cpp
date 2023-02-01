@@ -32,11 +32,12 @@ void BoardWidget::handleEvent(SDL_Event &e) {
         pair<int, int> pos = getCase(e.button.x, e.button.y);
         if(is_moving_x_ != -1 && pos.first != -1) {
             try {
-                game_.getBoard().play_move(
+                Historic r = game_.getBoard().play_move(
                         is_moving_x_,
                         is_moving_y_,
                         pos.first,
                         pos.second);
+                game_.addHistory(r);
             } catch (exception& e) {
 
             }

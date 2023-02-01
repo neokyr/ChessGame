@@ -13,7 +13,7 @@ void Game::cancel_move() {
         Historic tmp = move_history_.back();
         move_history_.erase(move_history_.end());
 
-        board_(tmp.getTo().first, tmp.getTo().second)->move(tmp.getFrom().first, tmp.getTo().second);
+        board_(tmp.getTo().first, tmp.getTo().second)->move(tmp.getFrom().first, tmp.getFrom().second);
 
         if(tmp.getDestroyed() != nullptr) {
             board_.addPiece(tmp.getDestroyed());
@@ -39,4 +39,8 @@ Color Game::getCurrentPlayer() const {
 
 const vector<Historic> &Game::getMoveHistory() const {
     return move_history_;
+}
+
+void Game::addHistory(Historic h) {
+    move_history_.push_back(h);
 }
