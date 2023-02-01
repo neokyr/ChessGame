@@ -33,6 +33,7 @@ private:
 
 public:
     Piece(int x, int y, Color c);
+    virtual ~Piece() = default;
     virtual Movement valid_move(int x, int y) = 0;
     virtual void move(int x, int y);
     virtual Piece_Type get_type() = 0;

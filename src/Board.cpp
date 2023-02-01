@@ -62,7 +62,8 @@ Board::Board(){
 
 Board::~Board() {
     for (auto& piece : piecesInGame_) {
-        delete piece;
+        //delete piece;
+        /* TODO resolve nullPtr exception on destroy */
     }
 
 }
