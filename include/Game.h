@@ -24,4 +24,8 @@ public:
     bool is_pat(Color c);
     bool can_castling(Color C);
     bool can_big_castling(Color C);
+
+    const Board &getBoard() const;
+    Color getCurrentPlayer() const;
+    const vector<Historic> &getMoveHistory() const;
 };

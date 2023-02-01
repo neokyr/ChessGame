@@ -7,18 +7,24 @@
 #include "Piece.h"
 
 
+class Movement;
+
 using namespace std;
 
-void Board::removePiece(int x, int y) {
+Piece* Board::removePiece(int x, int y) {
     for (int i = 0; i > piecesInGame_.size(); i++ ){
         if (piecesInGame_[i]->getPos_x() == x
             && piecesInGame_[i]->getPos_y() == y){
+            Piece* piece = piecesInGame_[i];
             piecesInGame_.erase (piecesInGame_.begin() + i);
+            return piece;
         }
     }
+    return nullptr;
 }
 
-Board::Board() {
+Board::Board(){
+
     piecesInGame_.push_back(new Rook(0, 0, WHITE));
     piecesInGame_.push_back(new Rook(7, 0, WHITE));
     piecesInGame_.push_back(new Knight(1, 0, WHITE));
@@ -70,21 +76,20 @@ bool Board::validate_move(int x1, int y1, int x2, int y2) {
     bool result = true;
 
     Piece* p =  (*this)(x1, y1);
-    result = p != nullptr && p->valid_move(x2, y2);
-    if(!result) return result;
+    if(p == nullptr) return false;
 
+    /* TODO valid Movement */
 
     Piece* p2 = (*this)(x2, y2);
     result = p2 == nullptr || p2->getColor() != p->getColor();
     if(!result) return result;
 
-    /* todo check mat */
+    /* todo check is_mat */
 }
 
 Historic Board::play_move(int x1, int y1, int x2, int y2) {
     if(validate_move(x1, y1, x2, y2)) {
-        Piece* destroyed = (*this)(x2, y2);
-        removePiece(x2, y2);
+        Piece* destroyed = removePiece(x2, y2);
 
         Historic move((*this)(x1,y1), x1, y1, x2, y2, destroyed);
 
@@ -94,7 +99,7 @@ Historic Board::play_move(int x1, int y1, int x2, int y2) {
 }
 
 void Board::addPiece(Piece* p) {
-
+    piecesInGame_.push_back(p);
 }
 
 Piece* Board::operator()(int x, int y) {
@@ -128,6 +133,24 @@ vector<Piece *> Board::operator()(Color c) {
         }
     }
     return result;
+}
+
+bool Board::is_mat(Color color) {
+    bool result = false;
+    Color other = color == WHITE ? BLACK: WHITE;
+    vector<Piece*> pieces = (*this)(other);
+    Piece *king = (*this)(KING, color).at(0);
+    int x = king->getPos_x(), y = king->getPos_y();
+
+    for(auto piece : pieces) {
+        result = result || validate_move(piece->getPos_x(), piece->getPos_y(), x, y);
+    }
+
+    return result;
+}
+
+const vector<Piece *> &Board::getPiecesInGame() const {
+    return piecesInGame_;
 }
 
 
