@@ -62,7 +62,8 @@ Board::Board(){
 
 Board::~Board() {
     for (auto& piece : piecesInGame_) {
-        delete piece;
+        //delete piece;
+        /* TODO resolve nullPtr exception on destroy */
     }
 
 }
@@ -78,7 +79,10 @@ bool Board::validate_move(int x1, int y1, int x2, int y2) {
     Piece* p =  (*this)(x1, y1);
     if(p == nullptr) return false;
 
-    /* TODO valid Movement */
+    Movement m = p->valid_move(x2, y2);
+    if(!m.isValid()) return false;
+
+
 
     Piece* p2 = (*this)(x2, y2);
     result = p2 == nullptr || p2->getColor() != p->getColor();
@@ -102,7 +106,7 @@ void Board::addPiece(Piece* p) {
     piecesInGame_.push_back(p);
 }
 
-Piece* Board::operator()(int x, int y) {
+Piece* Board::operator()(int x, int y) const{
     for(auto& piece : piecesInGame_) {
         if(piece->getPos_x() == x && piece->getPos_y() == y) {
             return piece;
@@ -112,7 +116,7 @@ Piece* Board::operator()(int x, int y) {
     return nullptr;
 }
 
-vector<Piece*> Board::operator()(Piece_Type piece_type, Color c) {
+vector<Piece*> Board::operator()(Piece_Type piece_type, Color c) const{
     vector<Piece*> result;
 
     for(auto& piece : piecesInGame_) {
@@ -124,7 +128,7 @@ vector<Piece*> Board::operator()(Piece_Type piece_type, Color c) {
     return result;
 }
 
-vector<Piece *> Board::operator()(Color c) {
+vector<Piece *> Board::operator()(Color c) const{
     vector<Piece*> result;
 
     for(auto& piece : piecesInGame_) {
@@ -135,7 +139,7 @@ vector<Piece *> Board::operator()(Color c) {
     return result;
 }
 
-bool Board::is_mat(Color color) {
+bool Board::is_check(Color color) {
     bool result = false;
     Color other = color == WHITE ? BLACK: WHITE;
     vector<Piece*> pieces = (*this)(other);

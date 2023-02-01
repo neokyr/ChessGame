@@ -75,6 +75,10 @@ Piece_Type King::get_type() {
     return KING;
 }
 
+void King::move(int x, int y) {
+    Piece::move(x, y);
+}
+
 Queen::Queen(int x, int y, Color c) : Piece(x, y, c) {
 
 }
@@ -212,4 +216,8 @@ Piece_Type Pawn::get_type() {
 
 Piece& Pawn::upgrade(Piece_Type e) {
     return *this;
+}
+
+void Pawn::move(int x, int y) {
+    Piece::move(x, y);
 }
