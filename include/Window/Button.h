@@ -5,17 +5,18 @@
 #include "EventHandler.h"
 #include "Widget.h"
 #include <string>
+#include <functional>
 
 using namespace std;
 
-class Button : public Event, public Widget{
+class Button : public Widget{
 private:
     SDL_Texture *button_up_{}, *button_down_{};
-    void (*clickCallback_)();
+    std::function<void ()> clickCallback_;
     bool is_down;
 public:
-    Button(int x, int y, int w, int h, char *btn_up_path, char *btn_down_path, void (*clickCallback)());
-    void print();
+    Button(int x, int y, int w, int h, string btn_up_path, string btn_down_path, std::function<void (void)> clickCallback);
+    void print() override;
     void handleEvent(SDL_Event &e) override;
 
 };

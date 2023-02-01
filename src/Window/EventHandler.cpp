@@ -1,6 +1,4 @@
-//
-// Created by p00ri on 26/01/2023.
-//
+
 #include "../../include/Window/EventHandler.h"
 
 void EventHandler::handle(SDL_Event &e, bool &gameRunning) {
