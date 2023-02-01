@@ -18,13 +18,14 @@ int main(int argc, char** argv) {
 
     Window* main_window = Window::getMainWindow();
     EventHandler *eventHandler = EventHandler::getEventHandler();
+    Game game;
 
     bool continueGame = true;
     SDL_Event event;
     int x = 0;
     Button new_game(600, 310, 200, 40,
                     "../assets/button_new-game.png", "../assets/button_new-game1.png",
-                    [&main_window]() {
+                    [&main_window, &game]() {
                         SDL_MessageBoxData data;
                         data.title = "New Game";
                         data.flags = 0;
@@ -41,11 +42,9 @@ int main(int argc, char** argv) {
                         data.buttons = button;
                         int buttonid;
                         if( SDL_ShowMessageBox(&data, &buttonid) < 0 ) {
-                            // error occurred
+                            throw runtime_error(SDL_GetError());
                         } else if( buttonid == 0 ) {
-                            // user clicked yes
-                        } else if( buttonid == 1 ) {
-                            // user clicked no
+                            game.new_game();
                         }
                     });
     Button cancel_move(600, 351, 200, 40,
@@ -54,8 +53,8 @@ int main(int argc, char** argv) {
                     });
 
 
-    BoardWidget board(10,10,590);
-    HistoricWidget histo_test(600,10,200, 300, "../assets/scr_background.png", 10);
+    BoardWidget board(10,10,590, game);
+    HistoricWidget histo_test(600, 10, 200, 300, "../assets/scr_background.png", 10, game);
     SDL_Texture * bg = main_window->loadImg((string) "../assets/background.png");
 
     while(continueGame) {

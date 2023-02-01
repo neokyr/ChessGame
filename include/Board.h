@@ -12,8 +12,7 @@ using namespace std;
 class Board {
 private:
     vector<Piece*> piecesInGame_;
-
-    void removePiece(int x, int y);
+    Piece* removePiece(int x, int y);
 
 
 public:
@@ -27,7 +26,12 @@ public:
 
     void addPiece(Piece* p);
 
+
     Piece* operator()(int x, int y);
     vector<Piece*> operator()(Piece_Type piece, Color c);
     vector<Piece*> operator()(Color c);
+
+    bool is_mat(Color color);
+
+    const vector<Piece *> &getPiecesInGame() const;
 };

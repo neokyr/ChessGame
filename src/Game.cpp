@@ -26,15 +26,17 @@ void Game::change_player() {
 }
 
 bool Game::is_mat(Color c) {
-    bool result = false;
-    Color other = c == WHITE ? BLACK: WHITE;
-    vector<Piece*> pieces = board_(other);
-    Piece *king = board_(KING, c).at(0);
-    int x = king->getPos_x(), y = king->getPos_y();
+    return board_.is_mat(c);
+}
 
-    for(auto piece : pieces) {
-        result = result || piece->valid_move(x,y);
-    }
+const Board &Game::getBoard() const {
+    return board_;
+}
 
-    return result;
+Color Game::getCurrentPlayer() const {
+    return current_player_;
+}
+
+const vector<Historic> &Game::getMoveHistory() const {
+    return move_history_;
 }

@@ -6,8 +6,8 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wwritable-strings"
-BoardWidget::BoardWidget(int x, int y, int w/*, Board& board, Game& game*/):
-    Widget(x, y, w, w)/*, board_(board), game_(game) */ {
+BoardWidget::BoardWidget(int x, int y, int w, Game& game):
+    Widget(x, y, w, w), game_(game) {
     Window *win = Window::getMainWindow();
 
     w_case_0_ = win->loadImg("../assets/chessSet/square_gray_light.png");
@@ -60,9 +60,24 @@ void BoardWidget::print() {
             SDL_RenderCopy(win->getRender(), w_case_0_, nullptr, &r);
         } else {
             SDL_RenderCopy(win->getRender(), b_case_0_, nullptr, &r);
-            SDL_RenderCopy(win->getRender(), w_piece_[KING], nullptr, &r);
+            //SDL_RenderCopy(win->getRender(), w_piece_[KING], nullptr, &r);
         }
-        /* TODO Add pieces */
+    }
+    for(auto piece: game_.getBoard().getPiecesInGame()) {
+        int x = piece->getPos_x() * w_case + font_space + board->x;
+        int y = (7-piece->getPos_y()) * h_case + board->y;
+        SDL_Rect r = {x, y, w_case, h_case};
+        if(piece->getColor() == WHITE) {
+            SDL_RenderCopy(
+                    win->getRender(),
+                    win->getWhitePieces()[piece->get_type()],
+                    nullptr, &r);
+        } else {
+            SDL_RenderCopy(
+                    win->getRender(),
+                    win->getBlackPieces()[piece->get_type()],
+                    nullptr, &r);
+        }
     }
 }
 
