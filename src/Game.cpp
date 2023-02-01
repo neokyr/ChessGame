@@ -29,7 +29,7 @@ bool Game::is_check(Color c) {
     return board_.is_check(c);
 }
 
-const Board &Game::getBoard() const {
+Board &Game::getBoard() {
     return board_;
 }
 

@@ -28,7 +28,20 @@ void BoardWidget::handleEvent(SDL_Event &e) {
         pair<int, int> moving = getCase(e.button.x, e.button.y);
         is_moving_x_ = moving.first;
         is_moving_y_ = moving.second;
-    } else if (e.type == SDL_MOUSEBUTTONUP && is_inside(e.button.x, e.button.y)) {
+    } else if (e.type == SDL_MOUSEBUTTONUP ) {
+        pair<int, int> pos = getCase(e.button.x, e.button.y);
+        if(is_moving_x_ != -1 && pos.first != -1) {
+            try {
+                game_.getBoard().play_move(
+                        is_moving_x_,
+                        is_moving_y_,
+                        pos.first,
+                        pos.second);
+            } catch (exception& e) {
+
+            }
+
+        }
         is_moving_x_ = -1;
         is_moving_y_ = -1;
         /* TODO add move event */
