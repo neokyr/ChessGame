@@ -27,11 +27,11 @@ public:
     void addPiece(Piece* p);
 
 
-    Piece* operator()(int x, int y);
-    vector<Piece*> operator()(Piece_Type piece, Color c);
-    vector<Piece*> operator()(Color c);
+    Piece* operator()(int x, int y) const;
+    vector<Piece*> operator()(Piece_Type piece, Color c) const;
+    vector<Piece*> operator()(Color c) const;
 
-    bool is_mat(Color color);
+    bool is_check(Color color);
 
     const vector<Piece *> &getPiecesInGame() const;
 };

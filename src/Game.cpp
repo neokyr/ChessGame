@@ -25,8 +25,8 @@ void Game::change_player() {
     current_player_ = current_player_ == WHITE ? BLACK : WHITE;
 }
 
-bool Game::is_mat(Color c) {
-    return board_.is_mat(c);
+bool Game::is_check(Color c) {
+    return board_.is_check(c);
 }
 
 const Board &Game::getBoard() const {
