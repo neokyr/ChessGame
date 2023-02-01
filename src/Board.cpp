@@ -18,40 +18,7 @@ void Board::removePiece(int x, int y) {
     }
 }
 
-Board::Board() {}
-
-void Board::print() {
-
-}
-
-bool Board::validate_move(int x1, int y1, int x2, int y2) {
-    bool result = true;
-
-    Piece* p =  (*this)(x1, y1);
-    result = p != nullptr && p->valid_move(x2, y2);
-    if(!result) return result;
-
-
-    Piece* p2 = (*this)(x2, y2);
-    result = p2 == nullptr || p2->getColor() != p->getColor();
-    if(!result) return result;
-
-    /* todo check mat */
-}
-
-Historic Board::play_move(int x1, int y1, int x2, int y2) {
-    if(validate_move(x1, y1, x2, y2)) {
-        Piece* destroyed = (*this)(x2, y2);
-        removePiece(x2, y2);
-
-        Historic move((*this)(x1,y1), x1, y1, x2, y2, destroyed);
-
-        return move;
-    }
-    throw invalid_argument("Move not allowed");
-}
-
-void Board::addPiece(Piece* p) {
+Board::Board() {
     piecesInGame_.push_back(new Rook(0, 0, WHITE));
     piecesInGame_.push_back(new Rook(7, 0, WHITE));
     piecesInGame_.push_back(new Knight(1, 0, WHITE));
@@ -87,6 +54,49 @@ void Board::addPiece(Piece* p) {
     piecesInGame_.push_back(new Pawn(6, 7, BLACK));
 }
 
+Board::~Board() {
+    for (auto& piece : piecesInGame_) {
+        delete piece;
+    }
+
+}
+
+
+void Board::print() {
+
+}
+
+bool Board::validate_move(int x1, int y1, int x2, int y2) {
+    bool result = true;
+
+    Piece* p =  (*this)(x1, y1);
+    result = p != nullptr && p->valid_move(x2, y2);
+    if(!result) return result;
+
+
+    Piece* p2 = (*this)(x2, y2);
+    result = p2 == nullptr || p2->getColor() != p->getColor();
+    if(!result) return result;
+
+    /* todo check mat */
+}
+
+Historic Board::play_move(int x1, int y1, int x2, int y2) {
+    if(validate_move(x1, y1, x2, y2)) {
+        Piece* destroyed = (*this)(x2, y2);
+        removePiece(x2, y2);
+
+        Historic move((*this)(x1,y1), x1, y1, x2, y2, destroyed);
+
+        return move;
+    }
+    throw invalid_argument("Move not allowed");
+}
+
+void Board::addPiece(Piece* p) {
+
+}
+
 Piece* Board::operator()(int x, int y) {
     for(auto& piece : piecesInGame_) {
         if(piece->getPos_x() == x && piece->getPos_y() == y) {
@@ -119,6 +129,8 @@ vector<Piece *> Board::operator()(Color c) {
     }
     return result;
 }
+
+
 
 
 

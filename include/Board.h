@@ -18,6 +18,9 @@ private:
 
 public:
     Board();
+
+    ~Board();
+
     void print();
     bool validate_move(int x1, int y1, int x2, int y2);
     Historic play_move(int x1, int y1, int x2, int y2);
