@@ -139,9 +139,7 @@ Piece_Type Bishop::get_type() {
     return BISHOP;
 }
 
-Pawn::Pawn(int x, int y, Color c) {
-
-}
+Pawn::Pawn(int x, int y, Color c) : Piece(x,y,c) {}
 
 bool Pawn::valid_move(int x, int y) {
     int xm = (x - getPos_x());
@@ -163,7 +161,7 @@ Piece_Type Pawn::get_type() {
     return PAWN;
 }
 
-Piece Pawn::upgrade(Piece_Type e) {
-  //  return;
+Piece& Pawn::upgrade(Piece_Type e) {
+    return *this;
 }
 

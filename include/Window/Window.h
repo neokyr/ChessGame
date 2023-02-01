@@ -4,6 +4,7 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -12,11 +13,13 @@ private:
     SDL_Window* window_;
     SDL_Surface* win_surface_;
     SDL_Renderer* render_;
+    vector<SDL_Texture*> white_pieces_, black_pieces_, letters_, numbers_;
 
     Window();
 public:
     Window(Window& handler)= delete;
     Window& operator=(Window const& ev) = delete;
+    ~Window();
 
     static Window* getMainWindow() {
         static Window window;
@@ -27,5 +30,15 @@ public:
     SDL_Surface *getWinSurface() const;
     SDL_Renderer *getRender() const;
 
-    SDL_Texture * loadingPng(char* path_to_file);
+    SDL_Texture * loadImg(const string path_to_file);
+
+    const vector<SDL_Texture *> &getWhitePieces() const;
+
+    const vector<SDL_Texture *> &getBlackPieces() const;
+
+    const vector<SDL_Texture *> &getLetters() const;
+
+    const vector<SDL_Texture *> &getNumbers() const;
+
+    static SDL_Surface *loadImgToSurface(const string path_to_file);
 };

@@ -71,11 +71,11 @@ class Pawn : public Piece {
 private:
     bool already_move_ = false;
 public:
-    Pawn(int x, int y, bool color);
+    Pawn(int x, int y, Color c);
     bool valid_move(int x, int y) override;
 
     Piece_Type get_type() override;
 
-    Piece upgrade(Piece_Type e);
+    Piece& upgrade(Piece_Type e);
 
 };

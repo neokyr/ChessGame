@@ -2,6 +2,7 @@
 // Created by Formation on 27/01/2023.
 //
 
+#include <stdexcept>
 #include "Board.h"
 #include "Piece.h"
 
@@ -60,20 +61,73 @@ Board::~Board() {
 
 }
 
+
 void Board::print() {
 
 }
 
 bool Board::validate_move(int x1, int y1, int x2, int y2) {
-    return false;
+    bool result = true;
+
+    Piece* p =  (*this)(x1, y1);
+    result = p != nullptr && p->valid_move(x2, y2);
+    if(!result) return result;
+
+
+    Piece* p2 = (*this)(x2, y2);
+    result = p2 == nullptr || p2->getColor() != p->getColor();
+    if(!result) return result;
+
+    /* todo check mat */
 }
 
-void Board::play_move(int x1, int y1, int x2, int y2) {
+Historic Board::play_move(int x1, int y1, int x2, int y2) {
+    if(validate_move(x1, y1, x2, y2)) {
+        Piece* destroyed = (*this)(x2, y2);
+        removePiece(x2, y2);
 
+        Historic move((*this)(x1,y1), x1, y1, x2, y2, destroyed);
+
+        return move;
+    }
+    throw invalid_argument("Move not allowed");
 }
 
 void Board::addPiece(Piece* p) {
 
+}
+
+Piece* Board::operator()(int x, int y) {
+    for(auto& piece : piecesInGame_) {
+        if(piece->getPos_x() == x && piece->getPos_y() == y) {
+            return piece;
+        }
+    }
+
+    return nullptr;
+}
+
+vector<Piece*> Board::operator()(Piece_Type piece_type, Color c) {
+    vector<Piece*> result;
+
+    for(auto& piece : piecesInGame_) {
+        if(piece->get_type() == piece_type && piece->getColor() == c) {
+            result.push_back(piece);
+        }
+    }
+
+    return result;
+}
+
+vector<Piece *> Board::operator()(Color c) {
+    vector<Piece*> result;
+
+    for(auto& piece : piecesInGame_) {
+        if(piece->getColor() == c) {
+            result.push_back(piece);
+        }
+    }
+    return result;
 }
 
 
