@@ -10,13 +10,16 @@ using namespace std;
 
 class Board {
 private:
-    vector<Piece*> PiecesInGame_;
+    vector<Piece*> piecesInGame_;
 
     void removePiece(int x, int y);
 
 
 public:
     Board();
+
+    ~Board();
+
     void print();
     bool validate_move(int x1, int y1, int x2, int y2);
     void play_move(int x1, int y1, int x2, int y2);
