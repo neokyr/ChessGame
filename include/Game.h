@@ -19,7 +19,7 @@ public:
     void new_game();
     void cancel_move();
     void change_player();
-    bool is_mat(Color c);
+    bool is_check(Color c);
     bool is_check_mat(Color c);
     bool is_pat(Color c);
     bool can_castling(Color C);
