@@ -26,6 +26,6 @@ public:
     ~ScrollableWidget();
 
     void handleEvent(SDL_Event &e) override;
-    void print() final;
+    void print() override;
 
 };

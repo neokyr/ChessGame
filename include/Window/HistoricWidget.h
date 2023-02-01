@@ -4,10 +4,13 @@
 #pragma once
 #include "ScrollableWidget.h"
 #include "Historic.h"
+#include "Game.h"
 
 
 class HistoricWidget : public ScrollableWidget{
 private:
+    Game game_;
 public:
-    HistoricWidget(int x, int y, int w, int h, const string &bgPath, int padding);
+    HistoricWidget(int x, int y, int w, int h, const string &bgPath, int padding, Game& game);
+    void print() override;
 };
