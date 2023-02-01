@@ -3,7 +3,7 @@
 Game::Game() : board_(Board()), current_player_(WHITE), move_history_(vector<Historic>()) {}
 
 void Game::new_game() {
-    board_ = Board(*this);
+    board_ = Board();
     current_player_ = WHITE;
     move_history_ = vector<Historic>();
 }
