@@ -4,7 +4,6 @@
 #pragma once
 
 #include <vector>
-#include "Game.h"
 #include "Piece.h"
 #include "Historic.h"
 
@@ -13,13 +12,12 @@ using namespace std;
 class Board {
 private:
     vector<Piece*> piecesInGame_;
-    Game mainGame_;
 
     void removePiece(int x, int y);
 
 
 public:
-    Board(Game& game);
+    Board();
     void print();
     bool validate_move(int x1, int y1, int x2, int y2);
     Historic play_move(int x1, int y1, int x2, int y2);

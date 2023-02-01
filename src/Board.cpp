@@ -18,7 +18,7 @@ void Board::removePiece(int x, int y) {
     }
 }
 
-Board::Board(Game& game) : mainGame_(game) {}
+Board::Board() {}
 
 void Board::print() {
 
