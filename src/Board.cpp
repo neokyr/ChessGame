@@ -27,14 +27,14 @@ Board::Board() {
     piecesInGame_.push_back(new Bishop(5, 0, WHITE));
     piecesInGame_.push_back(new King(3, 0, WHITE));
     piecesInGame_.push_back(new Queen(4, 0, WHITE));
-    piecesInGame_.push_back(new Pawn(1, 0, WHITE));
+    piecesInGame_.push_back(new Pawn(0, 1, WHITE));
     piecesInGame_.push_back(new Pawn(1, 1, WHITE));
-    piecesInGame_.push_back(new Pawn(1, 2, WHITE));
-    piecesInGame_.push_back(new Pawn(1, 3, WHITE));
-    piecesInGame_.push_back(new Pawn(1, 4, WHITE));
-    piecesInGame_.push_back(new Pawn(1, 5, WHITE));
-    piecesInGame_.push_back(new Pawn(1, 6, WHITE));
-    piecesInGame_.push_back(new Pawn(1, 7, WHITE));
+    piecesInGame_.push_back(new Pawn(2, 1, WHITE));
+    piecesInGame_.push_back(new Pawn(3, 1, WHITE));
+    piecesInGame_.push_back(new Pawn(4, 1, WHITE));
+    piecesInGame_.push_back(new Pawn(5, 1, WHITE));
+    piecesInGame_.push_back(new Pawn(6, 1, WHITE));
+    piecesInGame_.push_back(new Pawn(7, 1, WHITE));
 
     piecesInGame_.push_back(new Rook(0, 7, BLACK));
     piecesInGame_.push_back(new Rook(7, 7, BLACK));
@@ -44,14 +44,14 @@ Board::Board() {
     piecesInGame_.push_back(new Bishop(5, 7, BLACK));
     piecesInGame_.push_back(new King(3, 7, BLACK));
     piecesInGame_.push_back(new Queen(4, 7, BLACK));
-    piecesInGame_.push_back(new Pawn(6, 0, BLACK));
-    piecesInGame_.push_back(new Pawn(6, 1, BLACK));
-    piecesInGame_.push_back(new Pawn(6, 2, BLACK));
-    piecesInGame_.push_back(new Pawn(6, 3, BLACK));
-    piecesInGame_.push_back(new Pawn(6, 4, BLACK));
-    piecesInGame_.push_back(new Pawn(6, 5, BLACK));
+    piecesInGame_.push_back(new Pawn(0, 6, BLACK));
+    piecesInGame_.push_back(new Pawn(1, 6, BLACK));
+    piecesInGame_.push_back(new Pawn(2, 6, BLACK));
+    piecesInGame_.push_back(new Pawn(3, 6, BLACK));
+    piecesInGame_.push_back(new Pawn(4, 6, BLACK));
+    piecesInGame_.push_back(new Pawn(5, 6, BLACK));
     piecesInGame_.push_back(new Pawn(6, 6, BLACK));
-    piecesInGame_.push_back(new Pawn(6, 7, BLACK));
+    piecesInGame_.push_back(new Pawn(7, 6, BLACK));
 }
 
 Board::~Board() {
