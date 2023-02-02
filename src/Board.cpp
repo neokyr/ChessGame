@@ -101,8 +101,14 @@ bool Board::validate_move(int x1, int y1, int x2, int y2) {
     if(p2 != nullptr && p2->getColor() == p->getColor()) return false;
     if(p2 != nullptr && !m.isCanEat()) return false;
 
+    bool res = true;
+    p->move(x2, y2);
+    if(p2 != nullptr) p2 = removePiece(x2, y2);
+    res = !is_check(p->getColor());
+    p->move(x1, y1);
+    if(p2 != nullptr) addPiece(p2);
 
-    return true;
+    return res;
     /* todo check is_mat */
 }
 

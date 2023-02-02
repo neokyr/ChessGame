@@ -56,6 +56,7 @@ bool Game::can_castling(Color c) {
 
 bool Game::can_big_castling(Color c) {
     return board_.can_big_castling(c);
+}
 
 void Game::addHistory(Historic h) {
     move_history_.push_back(h);
