@@ -18,6 +18,7 @@ void Game::cancel_move() {
         if(tmp.getDestroyed() != nullptr) {
             board_.addPiece(tmp.getDestroyed());
         }
+        change_player();
     }
 }
 

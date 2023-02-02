@@ -26,8 +26,12 @@ BoardWidget::BoardWidget(int x, int y, int w, Game &game) :
 void BoardWidget::handleEvent(SDL_Event &e) {
     if (e.type == SDL_MOUSEBUTTONDOWN && is_inside(e.button.x, e.button.y)) {
         pair<int, int> moving = getCase(e.button.x, e.button.y);
-        is_moving_x_ = moving.first;
-        is_moving_y_ = moving.second;
+        Piece* p = game_.getBoard()(moving.first, moving.second);
+        if(p != nullptr && p->getColor() == game_.getCurrentPlayer()) {
+            is_moving_x_ = moving.first;
+            is_moving_y_ = moving.second;
+        }
+
     } else if (e.type == SDL_MOUSEBUTTONUP ) {
         pair<int, int> pos = getCase(e.button.x, e.button.y);
         if(is_moving_x_ != -1 && pos.first != -1) {
@@ -38,6 +42,8 @@ void BoardWidget::handleEvent(SDL_Event &e) {
                         pos.first,
                         pos.second);
                 game_.addHistory(r);
+
+                game_.change_player();
             } catch (exception& e) {
 
             }
@@ -45,7 +51,6 @@ void BoardWidget::handleEvent(SDL_Event &e) {
         }
         is_moving_x_ = -1;
         is_moving_y_ = -1;
-        /* TODO add move event */
     } else if (e.type == SDL_MOUSEMOTION) {
         pos_mouse_x_ = e.motion.x;
         pos_mouse_y_ = e.motion.y;
