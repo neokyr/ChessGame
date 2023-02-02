@@ -99,6 +99,7 @@ void BoardWidget::print() {
     }
     Piece* selected = game_.getBoard()(is_moving_x_, is_moving_y_);
 
+    int piece_size = case_size - 10;
     for (auto piece: game_.getBoard().getPiecesInGame()) {
         if(selected != nullptr && selected->getPos_x() == piece->getPos_x() && selected->getPos_y() == piece->getPos_y()) {
             continue;
@@ -106,10 +107,12 @@ void BoardWidget::print() {
         int x = piece->getPos_x() * case_size + font_space_ + board->x + 5;
         int y = (7 - piece->getPos_y()) * case_size + board->y + 5;
 
-        place_piece(piece, win, x, y);
+        place_piece(piece, win, x, y, piece_size);
     }
     if(selected != nullptr) {
-        place_piece(selected, win, pos_mouse_x_, pos_mouse_y_);
+        place_piece(selected, win, pos_mouse_x_ - piece_size / 2,
+                    pos_mouse_y_ - piece_size / 2,
+                    piece_size);
     }
 
 }
@@ -133,11 +136,10 @@ pair<int, int> BoardWidget::getCase(int xWin, int yWin) {
     return result;
 }
 
-void BoardWidget::place_piece(Piece *piece, Window *win, int x, int y) {
+void BoardWidget::place_piece(Piece *piece, Window *win, int x, int y, int piece_size) {
     SDL_Rect* board = getPosition();
     int case_size = (board->w - font_space_) / 8;
 
-    int piece_size = case_size -10;
     SDL_Rect r = {x, y, piece_size, piece_size};
 
     if (piece->getColor() == WHITE) {

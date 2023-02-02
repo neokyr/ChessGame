@@ -24,7 +24,7 @@ private:
     int font_space_ = 40;
 
     pair<int, int> getCase(int xWin, int yWin);
-    void place_piece(Piece *piece, Window *win, int x, int y);
+    void place_piece(Piece *piece, Window *win, int x, int y, int piece_size);
 public:
     BoardWidget(int x, int y, int w, Game& game);
 
