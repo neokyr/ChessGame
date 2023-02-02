@@ -25,7 +25,8 @@ public:
     bool can_castling(Color c);
     bool can_big_castling(Color c);
 
-    const Board &getBoard() const;
+    Board &getBoard();
     Color getCurrentPlayer() const;
     const vector<Historic> &getMoveHistory() const;
+    void addHistory(Historic h);
 };

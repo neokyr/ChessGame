@@ -23,10 +23,6 @@ ScrollableWidget::ScrollableWidget(int x, int y, int w, int h, string bg_path = 
         viewport_ = {0, 0, w, h};
     }
 
-    full_surface_ = SDL_CreateRGBSurface(0, 0, 0, 32, 0, 0, 0, 0);
-    surface_size_ = full_surface_->clip_rect;
-    render_texture_ = SDL_CreateTextureFromSurface(win->getRender(), full_surface_);
-
 
 }
 
@@ -69,7 +65,7 @@ void ScrollableWidget::print() {
         vpPosition.h -= padding_ * 2;
     }
 
-    SDL_UpdateTexture(render_texture_, &full_surface_->clip_rect, full_surface_->pixels, full_surface_->pitch);
+    //SDL_UpdateTexture(render_texture_, &full_surface_->clip_rect, full_surface_->pixels, full_surface_->pitch);
     SDL_RenderCopy(win->getRender(), render_texture_, &viewport_, &vpPosition);
 
 }
@@ -79,18 +75,17 @@ ScrollableWidget::~ScrollableWidget() {
     if(background_ != nullptr) {
         SDL_DestroyTexture(background_);
     }
-    SDL_FreeSurface(full_surface_);
 }
 
-SDL_Surface *ScrollableWidget::getSurface() {
-    return full_surface_;
+int ScrollableWidget::getPadding() const {
+    return padding_;
 }
 
-void ScrollableWidget::setSurface(SDL_Surface *new_surface) {
-    Window* win = Window::getMainWindow();
-    if(full_surface_ != nullptr) SDL_FreeSurface(full_surface_);
-    full_surface_ = new_surface;
-    surface_size_ = full_surface_->clip_rect;
-    render_texture_ = SDL_CreateTextureFromSurface(win->getRender(), full_surface_);
+void ScrollableWidget::setRenderTexture(SDL_Texture *renderTexture) {
+    if(render_texture_ != nullptr) SDL_DestroyTexture(render_texture_);
+    render_texture_ = renderTexture;
+    int w, h;
+    SDL_QueryTexture(render_texture_, nullptr, nullptr, &w, &h);
+    surface_size_ = {0 ,0, w, h};
 }
 

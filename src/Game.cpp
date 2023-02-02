@@ -13,11 +13,12 @@ void Game::cancel_move() {
         Historic tmp = move_history_.back();
         move_history_.erase(move_history_.end());
 
-        board_(tmp.getTo().first, tmp.getTo().second)->move(tmp.getFrom().first, tmp.getTo().second);
+        board_(tmp.getTo().first, tmp.getTo().second)->move(tmp.getFrom().first, tmp.getFrom().second);
 
         if(tmp.getDestroyed() != nullptr) {
             board_.addPiece(tmp.getDestroyed());
         }
+        change_player();
     }
 }
 
@@ -29,7 +30,7 @@ bool Game::is_check(Color c) {
     return board_.is_check(c);
 }
 
-const Board &Game::getBoard() const {
+Board &Game::getBoard() {
     return board_;
 }
 
@@ -55,4 +56,8 @@ bool Game::can_castling(Color c) {
 
 bool Game::can_big_castling(Color c) {
     return board_.can_big_castling(c);
+
+void Game::addHistory(Historic h) {
+    move_history_.push_back(h);
+
 }
