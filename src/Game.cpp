@@ -42,6 +42,22 @@ const vector<Historic> &Game::getMoveHistory() const {
     return move_history_;
 }
 
+bool Game::is_check_mat(Color c) {
+    return board_.is_check_mat(c);
+}
+
+bool Game::is_pat(Color c) {
+    return board_.is_pat(c);
+}
+
+bool Game::can_castling(Color c) {
+    return board_.can_castling(c);
+}
+
+bool Game::can_big_castling(Color c) {
+    return board_.can_big_castling(c);
+
 void Game::addHistory(Historic h) {
     move_history_.push_back(h);
+
 }

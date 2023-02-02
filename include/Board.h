@@ -34,4 +34,9 @@ public:
     bool is_check(Color color);
 
     const vector<Piece *> &getPiecesInGame() const;
+
+    bool is_check_mat(Color color);
+    bool is_pat(Color color);
+    bool can_castling(Color color);
+    bool can_big_castling(Color color);
 };

@@ -22,8 +22,8 @@ public:
     bool is_check(Color c);
     bool is_check_mat(Color c);
     bool is_pat(Color c);
-    bool can_castling(Color C);
-    bool can_big_castling(Color C);
+    bool can_castling(Color c);
+    bool can_big_castling(Color c);
 
     Board &getBoard();
     Color getCurrentPlayer() const;

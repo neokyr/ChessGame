@@ -11,19 +11,21 @@ class Movement;
 
 using namespace std;
 
+
 Piece* Board::removePiece(int x, int y) {
     for (int i = 0; i < piecesInGame_.size() ; i++ ){
+
         if (piecesInGame_[i]->getPos_x() == x
-            && piecesInGame_[i]->getPos_y() == y){
-            Piece* piece = piecesInGame_[i];
-            piecesInGame_.erase (piecesInGame_.begin() + i);
+            && piecesInGame_[i]->getPos_y() == y) {
+            Piece *piece = piecesInGame_[i];
+            piecesInGame_.erase(piecesInGame_.begin() + i);
             return piece;
         }
     }
     return nullptr;
 }
 
-Board::Board(){
+Board::Board() {
 
     piecesInGame_.push_back(new Rook(0, 0, WHITE));
     piecesInGame_.push_back(new Rook(7, 0, WHITE));
@@ -61,7 +63,7 @@ Board::Board(){
 }
 
 Board::~Board() {
-    for (auto& piece : piecesInGame_) {
+    for (auto &piece: piecesInGame_) {
         //delete piece;
         /* TODO resolve nullPtr exception on destroy */
     }
@@ -74,11 +76,14 @@ void Board::print() {
 }
 
 bool Board::validate_move(int x1, int y1, int x2, int y2) {
+
     Piece* p =  (*this)(x1, y1);
     if(p == nullptr) return false;
 
+
     Movement m = p->valid_move(x2, y2);
-    if(!m.isValid()) return false;
+    if (!m.isValid()) return false;
+
 
     if(!m.isDirect()) {
         int dX = x2-x1;
@@ -102,24 +107,26 @@ bool Board::validate_move(int x1, int y1, int x2, int y2) {
 }
 
 Historic Board::play_move(int x1, int y1, int x2, int y2) {
+
     if(validate_move(x1, y1, x2, y2)) {
         Piece* p = (*this)(x1,y1);
         Piece* destroyed = removePiece(x2, y2);
 
         Historic move(p, x1, y1, x2, y2, destroyed);
         p->move(x2,y2);
+
         return move;
     }
     throw invalid_argument("Move not allowed");
 }
 
-void Board::addPiece(Piece* p) {
+void Board::addPiece(Piece *p) {
     piecesInGame_.push_back(p);
 }
 
-Piece* Board::operator()(int x, int y) const{
-    for(auto& piece : piecesInGame_) {
-        if(piece->getPos_x() == x && piece->getPos_y() == y) {
+Piece *Board::operator()(int x, int y) const {
+    for (auto &piece: piecesInGame_) {
+        if (piece->getPos_x() == x && piece->getPos_y() == y) {
             return piece;
         }
     }
@@ -127,11 +134,11 @@ Piece* Board::operator()(int x, int y) const{
     return nullptr;
 }
 
-vector<Piece*> Board::operator()(Piece_Type piece_type, Color c) const{
-    vector<Piece*> result;
+vector<Piece *> Board::operator()(Piece_Type piece_type, Color c) const {
+    vector<Piece *> result;
 
-    for(auto& piece : piecesInGame_) {
-        if(piece->get_type() == piece_type && piece->getColor() == c) {
+    for (auto &piece: piecesInGame_) {
+        if (piece->get_type() == piece_type && piece->getColor() == c) {
             result.push_back(piece);
         }
     }
@@ -139,11 +146,11 @@ vector<Piece*> Board::operator()(Piece_Type piece_type, Color c) const{
     return result;
 }
 
-vector<Piece *> Board::operator()(Color c) const{
-    vector<Piece*> result;
+vector<Piece *> Board::operator()(Color c) const {
+    vector<Piece *> result;
 
-    for(auto& piece : piecesInGame_) {
-        if(piece->getColor() == c) {
+    for (auto &piece: piecesInGame_) {
+        if (piece->getColor() == c) {
             result.push_back(piece);
         }
     }
@@ -152,12 +159,12 @@ vector<Piece *> Board::operator()(Color c) const{
 
 bool Board::is_check(Color color) {
     bool result = false;
-    Color other = color == WHITE ? BLACK: WHITE;
-    vector<Piece*> pieces = (*this)(other);
+    Color other = color == WHITE ? BLACK : WHITE;
+    vector<Piece *> pieces = (*this)(other);
     Piece *king = (*this)(KING, color).at(0);
     int x = king->getPos_x(), y = king->getPos_y();
 
-    for(auto piece : pieces) {
+    for (auto piece: pieces) {
         result = result || validate_move(piece->getPos_x(), piece->getPos_y(), x, y);
     }
 
@@ -168,8 +175,62 @@ const vector<Piece *> &Board::getPiecesInGame() const {
     return piecesInGame_;
 }
 
+bool Board::is_check_mat(Color color) {
+    return false;
+}
 
+bool Board::is_pat(Color color) {
+    return false;
+}
 
+bool Board::can_castling(Color color) {
+    Piece *k;
+    Piece *r;
+    if (color == WHITE) {
+        r = (*this)(7, 0);
+        k = (*this)(4, 0);
+    } else {
+        r = (*this)(7, 7);
+        k = (*this)(4, 7);
+    }
+    if (r == nullptr || r->get_type() != ROOK || r->getColor() != color) {
+        return false;
+    }
+    if (is_check(color) || k == nullptr || r->get_type() != KING || r->getColor() != color) {
+        return false;
+    }
+    Movement m = r->valid_move(5, color == WHITE ? 0:7);
+    if(!m.isValid() || !m.isDirect()) {
+        return false;
+    }
+    if (validate_move(k->getPos_x(), k->getPos_y(), k->getPos_x() + 2, k->getPos_y())){
+        return true;
+    }
+    return false;
+}
 
-
-
+bool Board::can_big_castling(Color color) {
+    Piece *k;
+    Piece *r;
+    if (color == WHITE) {
+        r = (*this)(0, 0);
+        k = (*this)(4, 0);
+    } else {
+        r = (*this)(0, 7);
+        k = (*this)(4, 7);
+    }
+    if (r == nullptr || r->get_type() != ROOK || r->getColor() != color) {
+        return false;
+    }
+    if (is_check(color) || k == nullptr || r->get_type() != KING || r->getColor() != color) {
+        return false;
+    }
+    Movement m = r->valid_move(3, color == WHITE ? 0:7);
+    if(!m.isValid() || !m.isDirect()) {
+        return false;
+    }
+    if (validate_move(k->getPos_x(), k->getPos_y(), k->getPos_x() - 2, k->getPos_y())){
+        return true;
+    }
+    return false;
+}
