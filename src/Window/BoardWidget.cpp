@@ -138,7 +138,6 @@ pair<int, int> BoardWidget::getCase(int xWin, int yWin) {
 
 void BoardWidget::place_piece(Piece *piece, Window *win, int x, int y, int piece_size) {
     SDL_Rect* board = getPosition();
-    int case_size = (board->w - font_space_) / 8;
 
     SDL_Rect r = {x, y, piece_size, piece_size};
 
