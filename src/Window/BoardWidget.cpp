@@ -83,11 +83,18 @@ void BoardWidget::print() {
         int x = (i % 8) * case_size + font_space_ + board->x;
         int y = (i / 8) * case_size + board->y;
         SDL_Rect r = {x, y, case_size, case_size};
-        if (is_white_case) {
-            SDL_RenderCopy(win->getRender(), w_case_0_, nullptr, &r);
+        if (game_.getBoard().validate_move(is_moving_x_, is_moving_y_, i%8, 7 - i/8)) {
+            if(is_white_case) {
+                SDL_RenderCopy(win->getRender(), w_case_1_, nullptr, &r);
+            } else {
+                SDL_RenderCopy(win->getRender(), b_case_1_, nullptr, &r);
+            }
         } else {
-            SDL_RenderCopy(win->getRender(), b_case_0_, nullptr, &r);
-            //SDL_RenderCopy(win->getRender(), w_piece_[KING], nullptr, &r);
+            if(is_white_case) {
+                SDL_RenderCopy(win->getRender(), w_case_0_, nullptr, &r);
+            } else {
+                SDL_RenderCopy(win->getRender(), b_case_0_, nullptr, &r);
+            }
         }
     }
     Piece* selected = game_.getBoard()(is_moving_x_, is_moving_y_);
