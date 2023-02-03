@@ -36,6 +36,7 @@ void BoardWidget::handleEvent(SDL_Event &e) {
         pair<int, int> pos = getCase(e.button.x, e.button.y);
         if(is_moving_x_ != -1 && pos.first != -1) {
             try {
+                Window* win = Window::getMainWindow();
                 Historic r = game_.getBoard().play_move(
                         is_moving_x_,
                         is_moving_y_,
@@ -44,6 +45,12 @@ void BoardWidget::handleEvent(SDL_Event &e) {
                 game_.addHistory(r);
 
                 game_.change_player();
+                if(game_.is_check_mat(game_.getCurrentPlayer())) {
+                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
+                                             "Game end",
+                                             "Check mat !",
+                                             win->getWindow());
+                }
             } catch (exception& e) {
 
             }

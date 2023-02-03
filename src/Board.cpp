@@ -195,7 +195,18 @@ const vector<Piece *> &Board::getPiecesInGame() const {
 }
 
 bool Board::is_check_mat(Color color) {
-    return false;
+    if(!is_check(color)) return false;
+    vector<Piece*> cPieces = (*this)(color);
+
+    bool result = false;
+    for(auto piece : cPieces) {
+        for (int i = 0; i < 64 && !result; ++i) {
+            result = validate_move(piece->getPos_x(), piece->getPos_y(), i%8, i/8);
+        }
+        if(result) break;
+    }
+
+    return !result;
 }
 
 bool Board::is_pat(Color color) {
