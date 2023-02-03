@@ -192,10 +192,22 @@ Piece_Type Bishop::get_type() {
 Pawn::Pawn(int x, int y, Color c) : Piece(x,y,c) {}
 
 Movement Pawn::valid_move(int x, int y) {
+    if(x <0 || x> 7 || y <0 || y > 7) return {false};
     int xm = (x - getPos_x());
     int ym = (y - getPos_y());
 
-    if ((getColor() == WHITE && getPos_y() == 1) || (getColor() == BLACK && getPos_y() == 6)) {
+    if(getColor() == WHITE) {
+        if(ym > 2 || ym < 1 || (getPos_y() != 1 && ym != 1)) return {false};
+        if(abs(xm) == 1 && ym == 1) return {true, true,true,true};
+        if(xm == 0) return {true, true, false};
+    } else {
+        if(ym < -2 || ym > -1 || (getPos_y() != 6 && ym != -1)) return {false};
+        if(abs(xm) == 1 && ym == -1) return {true, true,true,true};
+        if(xm == 0) return {true, true, false};
+    }
+
+
+    /*if ((getColor() == WHITE && getPos_y() == 1) || (getColor() == BLACK && getPos_y() == 6)) {
         if (abs(ym) <= 0 || abs(ym) > 2 || abs(ym) == 2 && abs(xm) != 0 || abs(xm) > 1) {
             return Movement(false);
         }
@@ -205,8 +217,8 @@ Movement Pawn::valid_move(int x, int y) {
         else if (getColor() == BLACK && abs(xm) == 1 && ym == -1){
             return Movement(true, true, true, true);
         }
-    }
-    return Movement(true, false, false);
+    }*/
+    return Movement(false);
 }
 
 
