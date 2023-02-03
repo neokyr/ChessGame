@@ -31,7 +31,7 @@ public:
     vector<Piece*> operator()(Piece_Type piece, Color c) const;
     vector<Piece*> operator()(Color c) const;
 
-    bool is_check(Color color);
+    bool is_check(Color color) const;
 
     const vector<Piece *> &getPiecesInGame() const;
 
@@ -39,4 +39,6 @@ public:
     bool is_pat(Color color);
     bool can_castling(Color color);
     bool can_big_castling(Color color);
+
+    bool validate_move_without_check(int x1, int y1, int x2, int y2) const;
 };

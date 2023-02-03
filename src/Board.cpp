@@ -76,50 +76,58 @@ void Board::print() {
 }
 
 bool Board::validate_move(int x1, int y1, int x2, int y2) {
+    bool res = validate_move_without_check(x1, y1, x2, y2);
+    if(!res) return false;
+    Piece *p = (*this)(x1, y1);
+    Piece *p2 = (*this)(x2, y2);
 
-    Piece* p =  (*this)(x1, y1);
-    if(p == nullptr) return false;
+    if (p2 != nullptr) p2 = removePiece(x2, y2);
+    p->move(x2, y2);
+    res = !is_check(p->getColor());
+    p->move(x1, y1);
+    if (p2 != nullptr) addPiece(p2);
+
+
+    return res;
+}
+
+bool Board::validate_move_without_check(int x1, int y1, int x2, int y2) const {
+
+    Piece *p = (*this)(x1, y1);
+    if (p == nullptr) return false;
 
 
     Movement m = p->valid_move(x2, y2);
     if (!m.isValid()) return false;
 
 
-    if(!m.isDirect()) {
-        int dX = x2-x1;
-        int dY = y2-y1;
+    if (!m.isDirect()) {
+        int dX = x2 - x1;
+        int dY = y2 - y1;
         int biggest = max(abs(dX), abs(dY));
-        for(int i = 1; i < biggest ; i++) {
-            int nX = x1 + i * dX /biggest;
-            int nY = y1 + i * dY /biggest;
-            if((*this)(nX, nY) != nullptr) return false;
+        for (int i = 1; i < biggest; i++) {
+            int nX = x1 + i * dX / biggest;
+            int nY = y1 + i * dY / biggest;
+            if ((*this)(nX, nY) != nullptr) return false;
         }
     }
 
-    Piece* p2 = (*this)(x2, y2);
-    if(p2 == nullptr && m.isEatOnly()) return false;
-    if(p2 != nullptr && p2->getColor() == p->getColor()) return false;
-    if(p2 != nullptr && !m.isCanEat()) return false;
+    Piece *p2 = (*this)(x2, y2);
+    if (p2 == nullptr && m.isEatOnly()) return false;
+    if (p2 != nullptr && p2->getColor() == p->getColor()) return false;
+    if (p2 != nullptr && !m.isCanEat()) return false;
 
-    bool res = true;
-    p->move(x2, y2);
-    if(p2 != nullptr) p2 = removePiece(x2, y2);
-    res = !is_check(p->getColor());
-    p->move(x1, y1);
-    if(p2 != nullptr) addPiece(p2);
-
-    return res;
-    /* todo check is_mat */
+    return true;
 }
 
 Historic Board::play_move(int x1, int y1, int x2, int y2) {
 
-    if(validate_move(x1, y1, x2, y2)) {
-        Piece* p = (*this)(x1,y1);
-        Piece* destroyed = removePiece(x2, y2);
+    if (validate_move(x1, y1, x2, y2)) {
+        Piece *p = (*this)(x1, y1);
+        Piece *destroyed = removePiece(x2, y2);
 
         Historic move(p, x1, y1, x2, y2, destroyed);
-        p->move(x2,y2);
+        p->move(x2, y2);
 
         return move;
     }
@@ -163,15 +171,20 @@ vector<Piece *> Board::operator()(Color c) const {
     return result;
 }
 
-bool Board::is_check(Color color) {
+bool Board::is_check(Color color) const {
     bool result = false;
     Color other = color == WHITE ? BLACK : WHITE;
     vector<Piece *> pieces = (*this)(other);
-    Piece *king = (*this)(KING, color).at(0);
+    Piece *king;
+    try {
+        king = (*this)(KING, color).at(0);
+    } catch (exception &e) {
+        return false;
+    }
     int x = king->getPos_x(), y = king->getPos_y();
 
     for (auto piece: pieces) {
-        result = result || validate_move(piece->getPos_x(), piece->getPos_y(), x, y);
+        result = result || validate_move_without_check(piece->getPos_x(), piece->getPos_y(), x, y);
     }
 
     return result;
@@ -205,11 +218,11 @@ bool Board::can_castling(Color color) {
     if (is_check(color) || k == nullptr || r->get_type() != KING || r->getColor() != color) {
         return false;
     }
-    Movement m = r->valid_move(5, color == WHITE ? 0:7);
-    if(!m.isValid() || !m.isDirect()) {
+    Movement m = r->valid_move(5, color == WHITE ? 0 : 7);
+    if (!m.isValid() || !m.isDirect()) {
         return false;
     }
-    if (validate_move(k->getPos_x(), k->getPos_y(), k->getPos_x() + 2, k->getPos_y())){
+    if (validate_move(k->getPos_x(), k->getPos_y(), k->getPos_x() + 2, k->getPos_y())) {
         return true;
     }
     return false;
@@ -231,11 +244,11 @@ bool Board::can_big_castling(Color color) {
     if (is_check(color) || k == nullptr || r->get_type() != KING || r->getColor() != color) {
         return false;
     }
-    Movement m = r->valid_move(3, color == WHITE ? 0:7);
-    if(!m.isValid() || !m.isDirect()) {
+    Movement m = r->valid_move(3, color == WHITE ? 0 : 7);
+    if (!m.isValid() || !m.isDirect()) {
         return false;
     }
-    if (validate_move(k->getPos_x(), k->getPos_y(), k->getPos_x() - 2, k->getPos_y())){
+    if (validate_move(k->getPos_x(), k->getPos_y(), k->getPos_x() - 2, k->getPos_y())) {
         return true;
     }
     return false;
