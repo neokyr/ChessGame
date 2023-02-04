@@ -11,8 +11,10 @@ class Movement;
 
 using namespace std;
 
-Piece *Board::removePiece(int x, int y) {
-    for (int i = 0; i > piecesInGame_.size(); i++) {
+
+Piece* Board::removePiece(int x, int y) {
+    for (int i = 0; i < piecesInGame_.size() ; i++ ){
+
         if (piecesInGame_[i]->getPos_x() == x
             && piecesInGame_[i]->getPos_y() == y) {
             Piece *piece = piecesInGame_[i];
@@ -74,27 +76,44 @@ void Board::print() {
 }
 
 bool Board::validate_move(int x1, int y1, int x2, int y2) {
-    bool result = true;
 
-    Piece *p = (*this)(x1, y1);
-    if (p == nullptr) return false;
+    Piece* p =  (*this)(x1, y1);
+    if(p == nullptr) return false;
+
 
     Movement m = p->valid_move(x2, y2);
     if (!m.isValid()) return false;
 
 
-    Piece *p2 = (*this)(x2, y2);
-    result = p2 == nullptr || p2->getColor() != p->getColor();
-    if (!result) return result;
+    if(!m.isDirect()) {
+        int dX = x2-x1;
+        int dY = y2-y1;
+        int biggest = max(abs(dX), abs(dY));
+        for(int i = 1; i < biggest ; i++) {
+            int nX = x1 + i * dX /biggest;
+            int nY = y1 + i * dY /biggest;
+            if((*this)(nX, nY) != nullptr) return false;
+        }
+    }
 
+    Piece* p2 = (*this)(x2, y2);
+    if(p2 == nullptr && m.isEatOnly()) return false;
+    if(p2 != nullptr && p2->getColor() == p->getColor()) return false;
+    if(p2 != nullptr && !m.isCanEat()) return false;
+
+
+    return true;
     /* todo check is_mat */
 }
 
 Historic Board::play_move(int x1, int y1, int x2, int y2) {
-    if (validate_move(x1, y1, x2, y2)) {
-        Piece *destroyed = removePiece(x2, y2);
 
-        Historic move((*this)(x1, y1), x1, y1, x2, y2, destroyed);
+    if(validate_move(x1, y1, x2, y2)) {
+        Piece* p = (*this)(x1,y1);
+        Piece* destroyed = removePiece(x2, y2);
+
+        Historic move(p, x1, y1, x2, y2, destroyed);
+        p->move(x2,y2);
 
         return move;
     }

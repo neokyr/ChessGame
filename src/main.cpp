@@ -43,13 +43,15 @@ int main(int argc, char** argv) {
                         int buttonid;
                         if( SDL_ShowMessageBox(&data, &buttonid) < 0 ) {
                             throw runtime_error(SDL_GetError());
-                        } else if( buttonid == 0 ) {
+                        }
+                        if( buttonid == 0 ) {
                             game.new_game();
                         }
                     });
     Button cancel_move(600, 351, 200, 40,
                     "../assets/button_cancel-move.png", "../assets/button_cancel-move1.png",
-                    [&x]() {
+                    [&game]() {
+                        game.cancel_move();
                     });
 
 

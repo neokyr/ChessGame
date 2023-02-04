@@ -11,17 +11,16 @@ using namespace std;
 class ScrollableWidget : public Widget {
 private:
     static const int WHEEL_SPEED =5;
-    SDL_Rect surface_size_;
-    SDL_Surface* full_surface_;
-    SDL_Texture* render_texture_, *background_;
-    SDL_Rect viewport_;
+    SDL_Rect surface_size_{0,0,0,0};
+    SDL_Texture* render_texture_{}, *background_;
+    SDL_Rect viewport_{0,0,0,0};
     int padding_;
 
 protected:
-    SDL_Surface* getSurface();
-    void setSurface(SDL_Surface *new_surface);
-
+    void setRenderTexture(SDL_Texture *renderTexture);
 public:
+    int getPadding() const;
+
     ScrollableWidget(int x, int y, int w, int h, string bg_path, int padding);
     ~ScrollableWidget();
 
