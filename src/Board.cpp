@@ -104,7 +104,6 @@ bool Board::validate_move_without_check(int x1, int y1, int x2, int y2) const {
 }
 
 Historic Board::play_move(int x1, int y1, int x2, int y2) {
-
     if (validate_move(x1, y1, x2, y2)) {
         Piece *p = (*this)(x1, y1);
         Piece *destroyed;
@@ -299,7 +298,7 @@ Historic Board::promote(int x, int y, Piece_Type newType) {
     addPiece(newPiece);
 
 
-    return {newPiece, x, y, x, y, p, PROMOTION};
+    return {newPiece, x, y, x, y, p, PROMOTION, newType};
 }
 
 void Board::reInit() {
