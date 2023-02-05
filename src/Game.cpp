@@ -22,7 +22,7 @@ void Game::cancel_move() {
             cancel_move();
         } else {
             board_(tmp.getTo().first, tmp.getTo().second)->unMove(tmp.getFrom().first, tmp.getFrom().second);
-
+            board_.update_last_move(!move_history_.empty()?move_history_.back():Historic());
             if(tmp.getDestroyed() != nullptr) {
                 board_.addPiece(tmp.getDestroyed());
             }

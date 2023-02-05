@@ -46,13 +46,12 @@ bool Board::validate_move(int x1, int y1, int x2, int y2) {
     Piece *p = (*this)(x1, y1);
     Piece *p2 = (*this)(x2, y2);
 
-
+    //check if move create / perpetuate a check
     if (p2 != nullptr) p2 = removePiece(x2, y2);
     p->move(x2, y2);
     res = !is_check(p->getColor());
     p->unMove(x1, y1);
     if (p2 != nullptr) addPiece(p2);
-
 
     return res;
 }
@@ -77,6 +76,18 @@ bool Board::validate_move_without_check(int x1, int y1, int x2, int y2) const {
         }
     }
 
+    //check "en passant" move
+    if(p->get_type() == PAWN && (p->getColor() == WHITE && y1 == 4 || p->getColor() == BLACK && y1 == 3 )) {
+        if(abs(y1 - y2) == 1) {
+            Piece* pawn = last_move_.getMoving();
+            if(pawn->get_type() == PAWN && pawn->getColor() != p->getColor()) {
+                if(pawn->getPos_x() == x2 && abs(last_move_.getFrom().second - last_move_.getTo().second) == 2) {
+                    return true;
+                }
+            }
+        }
+    }
+
     Piece *p2 = (*this)(x2, y2);
     if (p2 == nullptr && m.isEatOnly()) return false;
     if (p2 != nullptr && p2->getColor() == p->getColor()) return false;
@@ -89,7 +100,17 @@ Historic Board::play_move(int x1, int y1, int x2, int y2) {
 
     if (validate_move(x1, y1, x2, y2)) {
         Piece *p = (*this)(x1, y1);
-        Piece *destroyed = removePiece(x2, y2);
+        Piece *destroyed;
+        if(p->get_type() == PAWN &&
+        abs(x1 - x2) == 1 &&
+        ( y1 == 4 || y1 == 3) &&
+        (y2 == 5 || y2 == 2) &&
+        (*this)(x2, y2) == nullptr) {
+            destroyed = removePiece(x2, y1);
+        }  else {
+            destroyed = removePiece(x2, y2);
+        }
+
 
         Historic move(p, x1, y1, x2, y2, destroyed);
         p->move(x2, y2);
@@ -98,6 +119,7 @@ Historic Board::play_move(int x1, int y1, int x2, int y2) {
             move.setMoveType(PROMOTION);
         }
 
+        last_move_ = move;
         return move;
     }
     throw invalid_argument("Move not allowed");
@@ -306,4 +328,8 @@ void Board::reInit() {
     piecesInGame_.push_back(new Pawn(5, 6, BLACK));
     piecesInGame_.push_back(new Pawn(6, 6, BLACK));
     piecesInGame_.push_back(new Pawn(7, 6, BLACK));
+}
+
+void Board::update_last_move(Historic last_move) {
+    last_move_ = last_move;
 }

@@ -12,6 +12,7 @@ using namespace std;
 class Board {
 private:
     vector<Piece*> piecesInGame_;
+    Historic last_move_;
 
 public:
     Board();
@@ -20,6 +21,7 @@ public:
     void print();
     bool validate_move(int x1, int y1, int x2, int y2);
     Historic play_move(int x1, int y1, int x2, int y2);
+    void update_last_move(Historic last_move);
     Historic promote(int x, int y, Piece_Type newType);
 
     void addPiece(Piece* p);
