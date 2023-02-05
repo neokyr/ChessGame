@@ -23,3 +23,15 @@ Historic::Historic(Piece *moving, int x1, int y1, int x2, int y2, Piece *destroy
     to_(pair<int, int>(x2,y2)),
     destroyed_(destroyed),
     moveType_(moveType){}
+
+Historic::~Historic() {
+    //delete destroyed_;
+}
+
+MoveType Historic::getMoveType() const {
+    return moveType_;
+}
+
+void Historic::setMoveType(MoveType moveType) {
+    moveType_ = moveType;
+}

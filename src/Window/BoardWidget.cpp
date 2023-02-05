@@ -1,4 +1,5 @@
 
+#include <stdexcept>
 #include "Window/BoardWidget.h"
 #include "Window/Window.h"
 #include "Piece.h"
@@ -43,6 +44,29 @@ void BoardWidget::handleEvent(SDL_Event &e) {
                         pos.first,
                         pos.second);
                 game_.addHistory(r);
+
+                if(r.getMoveType() == PROMOTION) {
+                    SDL_MessageBoxData data;
+                    data.title = "Promotion";
+                    data.flags = SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT;
+                    data.message = "Choose new piece type";
+                    data.numbuttons = 4;
+                    data.window = win->getWindow();
+                    SDL_MessageBoxButtonData button[4];
+                    button[0] = {0, BISHOP, "Bishop"};
+                    button[1] = {0, KNIGHT, "Knight"};
+                    button[2] = {0, QUEEN, "Queen"};
+                    button[3] = {0, ROOK, "Rook"};
+                    data.buttons = button;
+                    int buttonId;
+                    if( SDL_ShowMessageBox(&data, &buttonId) < 0 ) {
+                        throw runtime_error(SDL_GetError());
+                    }
+                    Historic h = game_.getBoard().promote(r.getTo().first, r.getTo().second,
+                                             static_cast<Piece_Type>(buttonId));
+                    game_.addHistory(h);
+
+                }
 
                 game_.change_player();
                 if(game_.is_pat(game_.getCurrentPlayer())) {

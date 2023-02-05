@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "Game.h"
 
 Game::Game() : board_(Board()), current_player_(WHITE), move_history_(vector<Historic>()) {}
@@ -13,12 +14,21 @@ void Game::cancel_move() {
         Historic tmp = move_history_.back();
         move_history_.erase(move_history_.end());
 
-        board_(tmp.getTo().first, tmp.getTo().second)->unMove(tmp.getFrom().first, tmp.getFrom().second);
-
-        if(tmp.getDestroyed() != nullptr) {
+        if(tmp.getMoveType() == PROMOTION && tmp.getTo() == tmp.getFrom()) {
+            if(tmp.getDestroyed() == nullptr) throw runtime_error("Corrupted history");
+            Piece* p = board_.removePiece(tmp.getTo().first, tmp.getTo().second);
+            delete p;
             board_.addPiece(tmp.getDestroyed());
+            cancel_move();
+        } else {
+            board_(tmp.getTo().first, tmp.getTo().second)->unMove(tmp.getFrom().first, tmp.getFrom().second);
+
+            if(tmp.getDestroyed() != nullptr) {
+                board_.addPiece(tmp.getDestroyed());
+            }
+            change_player();
         }
-        change_player();
+
     }
 }
 

@@ -7,20 +7,25 @@
 
 using namespace std;
 
-enum MoveType {NORMAL, LCast, RCast};
+enum MoveType {NORMAL, L_CAST, R_CAST, PROMOTION};
 
 class Historic {
 private:
-    Piece* moving_;
+public:
+    MoveType getMoveType() const;
+
+private:
+    Piece* moving_{};
     pair<int,int> from_;
     pair<int,int> to_;
-    Piece* destroyed_;
+    Piece* destroyed_{};
     MoveType moveType_;
 
 public:
     Historic() = default;
     Historic(Historic const& h) = default;
     Historic& operator=(Historic const& h) = default;
+    ~Historic();
 
     Historic(Piece* moving, int x1, int y1, int x2, int y2, Piece* destroyed = nullptr, MoveType moveType = NORMAL);
 
@@ -28,5 +33,7 @@ public:
     const pair<int, int> &getFrom() const;
     const pair<int, int> &getTo() const;
     Piece *getDestroyed() const;
+
+    void setMoveType(MoveType moveType);
 
 };

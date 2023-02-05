@@ -127,6 +127,10 @@ Historic Board::play_move(int x1, int y1, int x2, int y2) {
         Historic move(p, x1, y1, x2, y2, destroyed);
         p->move(x2, y2);
 
+        if(p->get_type() == PAWN && (y2 == 0 || y2 == 7)) {
+            move.setMoveType(PROMOTION);
+        }
+
         return move;
     }
     throw invalid_argument("Move not allowed");
@@ -266,4 +270,32 @@ bool Board::can_big_castling(Color color) {
         return true;
     }
     return false;
+}
+
+Historic Board::promote(int x, int y, Piece_Type newType) {
+    Piece* p = (*this)(x,y);
+
+    if(p == nullptr || p->get_type() != PAWN) {
+        throw invalid_argument("No pawn in " + to_string(x) + " " + to_string(y));
+    }
+    Piece* newPiece;
+    switch (newType) {
+        case BISHOP: newPiece = new Bishop(x, y,p->getColor());
+            break;
+        case KNIGHT: newPiece = new Knight(x, y,p->getColor());
+            break;
+        case QUEEN: newPiece = new Queen(x, y,p->getColor());
+            break;
+        case ROOK: newPiece = new Rook(x, y,p->getColor());
+            break;
+        default:
+            throw invalid_argument("Invalid type : " + to_string(newType));
+    }
+
+    p = removePiece(x,y);
+    if(p == nullptr) throw runtime_error("Error deleting pawn");
+    addPiece(newPiece);
+
+
+    return {newPiece, x, y, x, y, p, PROMOTION};
 }
