@@ -4,9 +4,9 @@
 Game::Game() : board_(Board()), current_player_(WHITE), move_history_(vector<Historic>()) {}
 
 void Game::new_game() {
-    board_ = Board();
+    board_.reInit();
     current_player_ = WHITE;
-    move_history_ = vector<Historic>();
+    deleteMoveHistory();
 }
 
 void Game::cancel_move() {
@@ -71,4 +71,15 @@ bool Game::can_big_castling(Color c) {
 void Game::addHistory(Historic h) {
     move_history_.push_back(h);
 
+}
+
+void Game::deleteMoveHistory() {
+    for(auto history : move_history_) {
+        delete history.getDestroyed();
+    }
+    move_history_ = vector<Historic>();
+}
+
+Game::~Game() {
+    deleteMoveHistory();
 }

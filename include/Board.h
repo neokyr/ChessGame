@@ -15,7 +15,6 @@ private:
 
 public:
     Board();
-
     ~Board();
 
     void print();
@@ -25,6 +24,7 @@ public:
 
     void addPiece(Piece* p);
     Piece* removePiece(int x, int y);
+    void reInit();
 
     Piece* operator()(int x, int y) const;
     vector<Piece*> operator()(Piece_Type piece, Color c) const;

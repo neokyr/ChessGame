@@ -25,7 +25,6 @@ public:
     Historic() = default;
     Historic(Historic const& h) = default;
     Historic& operator=(Historic const& h) = default;
-    ~Historic();
 
     Historic(Piece* moving, int x1, int y1, int x2, int y2, Piece* destroyed = nullptr, MoveType moveType = NORMAL);
 
