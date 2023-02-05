@@ -1,11 +1,12 @@
+#include <stdexcept>
 #include "Game.h"
 
 Game::Game() : board_(Board()), current_player_(WHITE), move_history_(vector<Historic>()) {}
 
 void Game::new_game() {
-    board_ = Board();
+    board_.reInit();
     current_player_ = WHITE;
-    move_history_ = vector<Historic>();
+    deleteMoveHistory();
 }
 
 void Game::cancel_move() {
@@ -13,12 +14,21 @@ void Game::cancel_move() {
         Historic tmp = move_history_.back();
         move_history_.erase(move_history_.end());
 
-        board_(tmp.getTo().first, tmp.getTo().second)->move(tmp.getFrom().first, tmp.getFrom().second);
-
-        if(tmp.getDestroyed() != nullptr) {
+        if(tmp.getMoveType() == PROMOTION && tmp.getTo() == tmp.getFrom()) {
+            if(tmp.getDestroyed() == nullptr) throw runtime_error("Corrupted history");
+            Piece* p = board_.removePiece(tmp.getTo().first, tmp.getTo().second);
+            delete p;
             board_.addPiece(tmp.getDestroyed());
+            cancel_move();
+        } else {
+            board_(tmp.getTo().first, tmp.getTo().second)->unMove(tmp.getFrom().first, tmp.getFrom().second);
+            board_.update_last_move(!move_history_.empty()?move_history_.back():Historic());
+            if(tmp.getDestroyed() != nullptr) {
+                board_.addPiece(tmp.getDestroyed());
+            }
+            change_player();
         }
-        change_player();
+
     }
 }
 
@@ -56,8 +66,20 @@ bool Game::can_castling(Color c) {
 
 bool Game::can_big_castling(Color c) {
     return board_.can_big_castling(c);
+}
 
 void Game::addHistory(Historic h) {
     move_history_.push_back(h);
 
+}
+
+void Game::deleteMoveHistory() {
+    for(auto history : move_history_) {
+        delete history.getDestroyed();
+    }
+    move_history_ = vector<Historic>();
+}
+
+Game::~Game() {
+    deleteMoveHistory();
 }
