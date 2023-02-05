@@ -53,6 +53,13 @@ bool Board::validate_move(int x1, int y1, int x2, int y2) {
     p->unMove(x1, y1);
     if (p2 != nullptr) addPiece(p2);
 
+    if(p->get_type() == KING && x1 == 4 && x2 == 6) {
+        return can_castling(p->getColor());
+    }
+    if(p->get_type() == KING && x1 == 4 && x2 == 2) {
+        return can_big_castling(p->getColor());
+    }
+
     return res;
 }
 bool Board::validate_move_without_check(int x1, int y1, int x2, int y2) const {
@@ -117,6 +124,12 @@ Historic Board::play_move(int x1, int y1, int x2, int y2) {
 
         if(p->get_type() == PAWN && (y2 == 0 || y2 == 7)) {
             move.setMoveType(PROMOTION);
+        } else if (p->get_type() == KING) {
+            if(x1 - x2 == 2) {
+                move.setMoveType(L_CAST);
+            } else if(x1 - x2 == -2) {
+                move.setMoveType(R_CAST);
+            }
         }
 
         last_move_ = move;
@@ -227,10 +240,10 @@ bool Board::can_castling(Color color) {
         return false;
     }
     Movement m = r->valid_move(5, color == WHITE ? 0 : 7);
-    if (!m.isValid() || !m.isDirect()) {
+    if (!m.isValid()) {
         return false;
     }
-    if (validate_move(k->getPos_x(), k->getPos_y(), k->getPos_x() + 2, k->getPos_y())) {
+    if (validate_move(k->getPos_x(), k->getPos_y(), k->getPos_x() + 1, k->getPos_y())) {
         return true;
     }
     return false;
@@ -248,14 +261,14 @@ bool Board::can_big_castling(Color color) {
     if (r == nullptr || r->get_type() != ROOK || r->getColor() != color) {
         return false;
     }
-    if (is_check(color) || k == nullptr || r->get_type() != KING || r->getColor() != color) {
+    if (is_check(color) || k == nullptr || k->get_type() != KING || k->getColor() != color) {
         return false;
     }
     Movement m = r->valid_move(3, color == WHITE ? 0 : 7);
-    if (!m.isValid() || !m.isDirect()) {
+    if (!m.isValid()) {
         return false;
     }
-    if (validate_move(k->getPos_x(), k->getPos_y(), k->getPos_x() - 2, k->getPos_y())) {
+    if (validate_move(k->getPos_x(), k->getPos_y(), k->getPos_x() - 1, k->getPos_y())) {
         return true;
     }
     return false;

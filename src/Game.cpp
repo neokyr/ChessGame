@@ -21,6 +21,15 @@ void Game::cancel_move() {
             board_.addPiece(tmp.getDestroyed());
             cancel_move();
         } else {
+            if(tmp.getMoveType() == L_CAST) {
+                int y = tmp.getMoving()->getColor() == WHITE ? 0: 7;
+                getBoard()(3, y)->move(0,y);
+            } else if (tmp.getMoveType() == R_CAST) {
+                int y = tmp.getMoving()->getColor() == WHITE ? 0: 7;
+                getBoard()(5, y)->move(7,y);
+            }
+
+
             board_(tmp.getTo().first, tmp.getTo().second)->unMove(tmp.getFrom().first, tmp.getFrom().second);
             board_.update_last_move(!move_history_.empty()?move_history_.back():Historic());
             if(tmp.getDestroyed() != nullptr) {

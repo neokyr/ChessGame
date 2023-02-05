@@ -38,14 +38,14 @@ void BoardWidget::handleEvent(SDL_Event &e) {
         if(is_moving_x_ != -1 && pos.first != -1) {
             try {
                 Window* win = Window::getMainWindow();
-                Historic r = game_.getBoard().play_move(
+                Historic current_move = game_.getBoard().play_move(
                         is_moving_x_,
                         is_moving_y_,
                         pos.first,
                         pos.second);
-                game_.addHistory(r);
+                game_.addHistory(current_move);
 
-                if(r.getMoveType() == PROMOTION) {
+                if(current_move.getMoveType() == PROMOTION) {
                     SDL_MessageBoxData data;
                     data.title = "Promotion";
                     data.flags = SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT;
@@ -62,10 +62,16 @@ void BoardWidget::handleEvent(SDL_Event &e) {
                     if( SDL_ShowMessageBox(&data, &buttonId) < 0 ) {
                         throw runtime_error(SDL_GetError());
                     }
-                    Historic h = game_.getBoard().promote(r.getTo().first, r.getTo().second,
-                                             static_cast<Piece_Type>(buttonId));
+                    Historic h = game_.getBoard().promote(current_move.getTo().first, current_move.getTo().second,
+                                                          static_cast<Piece_Type>(buttonId));
                     game_.addHistory(h);
 
+                } else if(current_move.getMoveType() == L_CAST) {
+                    int y = current_move.getMoving()->getColor() == WHITE ? 0: 7;
+                    game_.getBoard()(0, y)->move(3,y);
+                } else if(current_move.getMoveType() == R_CAST) {
+                    int y = current_move.getMoving()->getColor() == WHITE ? 0: 7;
+                    game_.getBoard()(7, y)->move(5,y);
                 }
 
                 game_.change_player();
