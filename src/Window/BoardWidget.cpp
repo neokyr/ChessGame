@@ -55,7 +55,7 @@ void BoardWidget::handleEvent(SDL_Event &e) {
                     SDL_MessageBoxButtonData button[4];
                     button[0] = {0, BISHOP, "Bishop"};
                     button[1] = {0, KNIGHT, "Knight"};
-                    button[2] = {0, QUEEN, "Queen"};
+                    button[2] = {SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT | SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, QUEEN, "Queen"};
                     button[3] = {0, ROOK, "Rook"};
                     data.buttons = button;
                     int buttonId;

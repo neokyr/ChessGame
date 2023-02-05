@@ -219,12 +219,12 @@ Movement Pawn::valid_move(int x, int y) {
 
     if(getColor() == WHITE) {
         if(ym > 2 || ym < 1 || (getPos_y() != 1 && ym != 1)) return {false};
-        if(abs(xm) == 1 && ym == 1) return {true, true,true,true};
-        if(xm == 0) return {true, true, false};
+        if(abs(xm) == 1 && ym == 1) return {true, false,true,true};
+        if(xm == 0) return {true, false, false};
     } else {
         if(ym < -2 || ym > -1 || (getPos_y() != 6 && ym != -1)) return {false};
-        if(abs(xm) == 1 && ym == -1) return {true, true,true,true};
-        if(xm == 0) return {true, true, false};
+        if(abs(xm) == 1 && ym == -1) return {true, false,true,true};
+        if(xm == 0) return {true, false, false};
     }
 
 
