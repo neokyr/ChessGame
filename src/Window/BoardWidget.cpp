@@ -1,4 +1,5 @@
 
+#include <stdexcept>
 #include "Window/BoardWidget.h"
 #include "Window/Window.h"
 #include "Piece.h"
@@ -36,6 +37,7 @@ void BoardWidget::handleEvent(SDL_Event &e) {
         pair<int, int> pos = getCase(e.button.x, e.button.y);
         if(is_moving_x_ != -1 && pos.first != -1) {
             try {
+                Window* win = Window::getMainWindow();
                 Historic r = game_.getBoard().play_move(
                         is_moving_x_,
                         is_moving_y_,
@@ -43,10 +45,42 @@ void BoardWidget::handleEvent(SDL_Event &e) {
                         pos.second);
                 game_.addHistory(r);
 
-                game_.change_player();
-            } catch (exception& e) {
+                if(r.getMoveType() == PROMOTION) {
+                    SDL_MessageBoxData data;
+                    data.title = "Promotion";
+                    data.flags = SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT;
+                    data.message = "Choose new piece type";
+                    data.numbuttons = 4;
+                    data.window = win->getWindow();
+                    SDL_MessageBoxButtonData button[4];
+                    button[0] = {0, BISHOP, "Bishop"};
+                    button[1] = {0, KNIGHT, "Knight"};
+                    button[2] = {SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT | SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, QUEEN, "Queen"};
+                    button[3] = {0, ROOK, "Rook"};
+                    data.buttons = button;
+                    int buttonId;
+                    if( SDL_ShowMessageBox(&data, &buttonId) < 0 ) {
+                        throw runtime_error(SDL_GetError());
+                    }
+                    Historic h = game_.getBoard().promote(r.getTo().first, r.getTo().second,
+                                             static_cast<Piece_Type>(buttonId));
+                    game_.addHistory(h);
 
-            }
+                }
+
+                game_.change_player();
+                if(game_.is_pat(game_.getCurrentPlayer())) {
+                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
+                                             "Game end",
+                                             "Pat !",
+                                             win->getWindow());
+                }else if(game_.is_check_mat(game_.getCurrentPlayer())) {
+                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
+                                             "Game end",
+                                             "Check mat !",
+                                             win->getWindow());
+                }
+            } catch (exception& e) {}
 
         }
         is_moving_x_ = -1;

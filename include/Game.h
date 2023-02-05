@@ -12,9 +12,11 @@ private:
     Board board_;
     Color current_player_;
     vector<Historic> move_history_;
+    void deleteMoveHistory();
 
 public:
     Game();
+    ~Game();
 
     void new_game();
     void cancel_move();

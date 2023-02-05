@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
                     [&main_window, &game]() {
                         SDL_MessageBoxData data;
                         data.title = "New Game";
-                        data.flags = 0;
+                        data.flags = SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT;
                         data.message = "Are you sure?";
                         data.numbuttons = 2;
                         data.window = main_window->getWindow();
