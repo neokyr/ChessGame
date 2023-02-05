@@ -52,10 +52,11 @@ Color Piece::getColor() const {
 }
 
 void Piece::unMove(int x, int y) {
-    move(x, y);
+    position_x_ = x;
+    position_y_ = y;
 }
 
-King::King(int x, int y, Color c) : Piece(x, y, c) {
+King::King(int x, int y, Color c) : Piece(x, y, c), nb_moves_(0) {
 }
 
 Movement King::valid_move(int x, int y) {
@@ -65,7 +66,7 @@ Movement King::valid_move(int x, int y) {
         return {false};
     }
 
-    if(!nb_moves && ym == 0 && xm == -2 || xm == 3) {
+    if(nb_moves_ == 0 && ym == 0 && abs(xm) == 2) {
         return {true};
     }
 
@@ -82,13 +83,13 @@ Piece_Type King::get_type() {
 
 void King::move(int x, int y) {
     Piece::move(x, y);
-    nb_moves += 1;
+    nb_moves_ += 1;
 }
 
 void King::unMove(int x, int y) {
-    if(nb_moves == 0) throw runtime_error("UnMove shouldn't be called");
+    if(nb_moves_ == 0) throw runtime_error("UnMove shouldn't be called");
     Piece::unMove(x, y);
-    nb_moves -= 1;
+    nb_moves_ -= 1;
 }
 
 Queen::Queen(int x, int y, Color c) : Piece(x, y, c) {}
@@ -126,22 +127,6 @@ Movement Rook::valid_move(int x, int y) {
         return {false};
     }
 
-    /*if (nb_move > 0 && getPos_x() == 0) {
-        if (xm == 3) {
-            return {true, true, false};
-        }
-        else {
-            return {false};
-        }
-    }
-    else if (nb_move > 0  && getPos_x() == 7){
-            if (xm == -2){
-                return {true, true, false};
-            }
-            else {
-                return {false};
-            }
-    }*/
 
     if ((x != getPos_x())
         && (y != getPos_y())){

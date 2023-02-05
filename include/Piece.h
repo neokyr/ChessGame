@@ -46,7 +46,7 @@ public:
 
 class King : public Piece {
 private:
-    int nb_moves = 0;
+    int nb_moves_ = 0;
 public:
     King(int x, int y, Color c);
     Movement valid_move(int x, int y) override;
