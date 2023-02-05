@@ -7,6 +7,9 @@ In a console do :
 git clone https://github.com/neokyr/chessgame
 cd ChessGame
 cmake -B ./build
+cd ./build
+make
+./chess
 ```
 
 Then launch the chess executable.
