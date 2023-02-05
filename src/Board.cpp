@@ -33,8 +33,8 @@ Board::Board() {
     piecesInGame_.push_back(new Knight(6, 0, WHITE));
     piecesInGame_.push_back(new Bishop(2, 0, WHITE));
     piecesInGame_.push_back(new Bishop(5, 0, WHITE));
-    piecesInGame_.push_back(new King(3, 0, WHITE));
-    piecesInGame_.push_back(new Queen(4, 0, WHITE));
+    piecesInGame_.push_back(new Queen(3, 0, WHITE));
+    piecesInGame_.push_back(new King(4, 0, WHITE));
     piecesInGame_.push_back(new Pawn(0, 1, WHITE));
     piecesInGame_.push_back(new Pawn(1, 1, WHITE));
     piecesInGame_.push_back(new Pawn(2, 1, WHITE));
@@ -50,8 +50,8 @@ Board::Board() {
     piecesInGame_.push_back(new Knight(6, 7, BLACK));
     piecesInGame_.push_back(new Bishop(2, 7, BLACK));
     piecesInGame_.push_back(new Bishop(5, 7, BLACK));
-    piecesInGame_.push_back(new King(3, 7, BLACK));
-    piecesInGame_.push_back(new Queen(4, 7, BLACK));
+    piecesInGame_.push_back(new Queen(3, 7, BLACK));
+    piecesInGame_.push_back(new King(4, 7, BLACK));
     piecesInGame_.push_back(new Pawn(0, 6, BLACK));
     piecesInGame_.push_back(new Pawn(1, 6, BLACK));
     piecesInGame_.push_back(new Pawn(2, 6, BLACK));
@@ -64,12 +64,10 @@ Board::Board() {
 
 Board::~Board() {
     for (auto &piece: piecesInGame_) {
-        //delete piece;
-        /* TODO resolve nullPtr exception on destroy */
+        delete piece;
     }
 
 }
-
 
 void Board::print() {
 
@@ -81,16 +79,16 @@ bool Board::validate_move(int x1, int y1, int x2, int y2) {
     Piece *p = (*this)(x1, y1);
     Piece *p2 = (*this)(x2, y2);
 
+
     if (p2 != nullptr) p2 = removePiece(x2, y2);
     p->move(x2, y2);
     res = !is_check(p->getColor());
-    p->move(x1, y1);
+    p->unMove(x1, y1);
     if (p2 != nullptr) addPiece(p2);
 
 
     return res;
 }
-
 bool Board::validate_move_without_check(int x1, int y1, int x2, int y2) const {
 
     Piece *p = (*this)(x1, y1);
@@ -147,7 +145,6 @@ Piece *Board::operator()(int x, int y) const {
 
     return nullptr;
 }
-
 vector<Piece *> Board::operator()(Piece_Type piece_type, Color c) const {
     vector<Piece *> result;
 
@@ -159,7 +156,6 @@ vector<Piece *> Board::operator()(Piece_Type piece_type, Color c) const {
 
     return result;
 }
-
 vector<Piece *> Board::operator()(Color c) const {
     vector<Piece *> result;
 
@@ -169,6 +165,9 @@ vector<Piece *> Board::operator()(Color c) const {
         }
     }
     return result;
+}
+const vector<Piece *> &Board::getPiecesInGame() const {
+    return piecesInGame_;
 }
 
 bool Board::is_check(Color color) const {
@@ -189,11 +188,6 @@ bool Board::is_check(Color color) const {
 
     return result;
 }
-
-const vector<Piece *> &Board::getPiecesInGame() const {
-    return piecesInGame_;
-}
-
 bool Board::is_check_mat(Color color) {
     if(!is_check(color)) return false;
     vector<Piece*> cPieces = (*this)(color);
@@ -208,11 +202,21 @@ bool Board::is_check_mat(Color color) {
 
     return !result;
 }
-
 bool Board::is_pat(Color color) {
+    if(!is_check(color)) {
+        bool result = false;
+        vector<Piece*> cPieces = (*this)(color);
+
+        for(auto piece : cPieces) {
+            for (int i = 0; i < 64 && !result; ++i) {
+                result = validate_move(piece->getPos_x(), piece->getPos_y(), i%8, i/8);
+            }
+            if(result) break;
+        }
+        return !result;
+    }
     return false;
 }
-
 bool Board::can_castling(Color color) {
     Piece *k;
     Piece *r;
@@ -226,7 +230,7 @@ bool Board::can_castling(Color color) {
     if (r == nullptr || r->get_type() != ROOK || r->getColor() != color) {
         return false;
     }
-    if (is_check(color) || k == nullptr || r->get_type() != KING || r->getColor() != color) {
+    if (is_check(color) || k == nullptr || k->get_type() != KING || k->getColor() != color) {
         return false;
     }
     Movement m = r->valid_move(5, color == WHITE ? 0 : 7);
@@ -238,7 +242,6 @@ bool Board::can_castling(Color color) {
     }
     return false;
 }
-
 bool Board::can_big_castling(Color color) {
     Piece *k;
     Piece *r;

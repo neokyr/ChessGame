@@ -45,15 +45,18 @@ void BoardWidget::handleEvent(SDL_Event &e) {
                 game_.addHistory(r);
 
                 game_.change_player();
-                if(game_.is_check_mat(game_.getCurrentPlayer())) {
+                if(game_.is_pat(game_.getCurrentPlayer())) {
+                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
+                                             "Game end",
+                                             "Pat !",
+                                             win->getWindow());
+                }else if(game_.is_check_mat(game_.getCurrentPlayer())) {
                     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
                                              "Game end",
                                              "Check mat !",
                                              win->getWindow());
                 }
-            } catch (exception& e) {
-
-            }
+            } catch (exception& e) {}
 
         }
         is_moving_x_ = -1;

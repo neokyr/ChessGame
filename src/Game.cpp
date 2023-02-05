@@ -13,7 +13,7 @@ void Game::cancel_move() {
         Historic tmp = move_history_.back();
         move_history_.erase(move_history_.end());
 
-        board_(tmp.getTo().first, tmp.getTo().second)->move(tmp.getFrom().first, tmp.getFrom().second);
+        board_(tmp.getTo().first, tmp.getTo().second)->unMove(tmp.getFrom().first, tmp.getFrom().second);
 
         if(tmp.getDestroyed() != nullptr) {
             board_.addPiece(tmp.getDestroyed());

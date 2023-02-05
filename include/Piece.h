@@ -36,6 +36,7 @@ public:
     virtual ~Piece() = default;
     virtual Movement valid_move(int x, int y) = 0;
     virtual void move(int x, int y);
+    virtual void unMove(int x, int y);
     virtual Piece_Type get_type() = 0;
     Color getColor() const;
 
@@ -45,11 +46,12 @@ public:
 
 class King : public Piece {
 private:
-    bool already_move_ = false;
+    int nb_moves = 0;
 public:
     King(int x, int y, Color c);
-    Movement valid_move(int x, int y);
-    void move(int x, int y);
+    Movement valid_move(int x, int y) override;
+    void move(int x, int y) override;
+    void unMove(int x, int y) override;
 
     Piece_Type get_type() override;
 
@@ -58,17 +60,19 @@ public:
 class Queen : public Piece {
 public:
     Queen(int x, int y, Color c);
-    Movement valid_move(int x, int y);
+    Movement valid_move(int x, int y) override;
 
     Piece_Type get_type() override;
 };
 
 class Rook : public Piece {
 private:
-    bool already_move_ = false;
+    int nb_move = 0;
 public:
     Rook(int x, int y, Color c);
     Movement valid_move(int x, int y) override;
+    void move(int x, int y) override;
+    void unMove(int x, int y) override;
 
     Piece_Type get_type() override;
 
@@ -93,12 +97,9 @@ public:
 };
 
 class Pawn : public Piece {
-private:
-    bool already_move_ = false;
 public:
     Pawn(int x, int y, Color c);
     Movement valid_move(int x, int y) override;
-    void move(int x, int y);
     Piece_Type get_type() override;
 
     Piece& upgrade(Piece_Type e);
