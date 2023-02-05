@@ -26,6 +26,8 @@ public:
     bool is_pat(Color c);
     bool can_castling(Color c);
     bool can_big_castling(Color c);
+    void saveState(string file_path);
+    void loadState(string file_path);
 
     Board &getBoard();
     Color getCurrentPlayer() const;

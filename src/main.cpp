@@ -53,7 +53,16 @@ int main(int argc, char** argv) {
                     [&game]() {
                         game.cancel_move();
                     });
-
+    Button save_game(600, 392, 200, 40,
+                     "../assets/button_save-game.png", "../assets/button_save-game1.png",
+                       [&game]() {
+                           game.saveState("./test.save");
+                       });
+    Button load_game(600, 433, 200, 40,
+                     "../assets/button_load-game.png", "../assets/button_load-game1.png",
+                     [&game]() {
+                         game.loadState("./test.save");
+                     });
 
     BoardWidget board(10,10,590, game);
     HistoricWidget histo_test(600, 10, 200, 300, "../assets/scr_background.png", 10, game);
@@ -65,6 +74,8 @@ int main(int argc, char** argv) {
         new_game.print();
         cancel_move.print();
         histo_test.print();
+        save_game.print();
+        load_game.print();
         board.print();
 
         SDL_RenderPresent(main_window->getRender());
